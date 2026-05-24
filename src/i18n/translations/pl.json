@@ -24,12 +24,7 @@
   "repoInput.errors.analysisFailed": "Analiza nie powiodła się",
   "repoInput.errors.generic": "Coś poszło nie tak",
 
-  "socialProof.title": "Zaufali nam",
-  "socialProof.subtitle": "Co mówią użytkownicy",
   "socialProof.asSeenIn": "Zauważeni w",
-  "socialProof.quote1": "πRate totalnie zmienił sposób w jaki nasz team reviewuje PRy. AI dostarcza obiektywnych metryk do daily discussion. Jakość kodu wzrosła o 40% w 3 miesiące.",
-  "socialProof.quote2": "Byłem sceptyczny, ale po przepuszczeniu 50 PRów przez πRate wnioski otworzyły mi oczy. Sam AI Leverage score pomógł nam znaleźć obszary do automatyzacji.",
-  "socialProof.quote3": "W końcu narzędzie które mówi językiem zarówno devów jak i managerów. Podsumowanie pirackie to nasza nowa ulubiona integracja Slackowa.",
 
   "howItWorks.title": "Jak to działa?",
   "howItWorks.step1.title": "Wpisz URL repozytorium",
