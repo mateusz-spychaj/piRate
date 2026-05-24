@@ -1,0 +1,85 @@
+{
+  "meta.title": "piRate - Oceń jakość PRów w swoim repozytorium",
+  "meta.description": "AI analizuje pull requesty i ocenia je pod względem wpływu, jakości i wykorzystania AI",
+
+  "nav.brand": "piRate",
+  "nav.analyze": "Analizuj",
+
+  "hero.title": "Oceń jakość PRów w swoim repozytorium",
+  "hero.subtitle": "AI analizuje pull requesty i ocenia je pod względem wpływu, jakości kodu oraz wykorzystania sztucznej inteligencji",
+  "hero.placeholder": "https://github.com/właściciel/repozytorium",
+  "hero.cta": "Analizuj repo",
+  "hero.settings.prs": "Ile PRów analizować?",
+  "hero.settings.prsLabel": "Liczba PRów do analizy",
+
+  "socialProof.title": "Narzędzie, któremu ufają zespoły dev",
+
+  "howItWorks.title": "Jak to działa?",
+  "howItWorks.step1.title": "Wpisz URL repozytorium",
+  "howItWorks.step1.description": "Podaj link do publicznego repozytorium GitHub, które chcesz ocenić",
+  "howItWorks.step2.title": "AI analizuje PRy",
+  "howItWorks.step2.description": "Nasze AI pobiera merged pull requesty i analizuje je pod trzema wymiarami",
+  "howItWorks.step3.title": "Zobacz wyniki",
+  "howItWorks.step3.description": "Otrzymasz szczegółową ocenę każdego PRa oraz zagregowany wynik dla całego repo",
+
+  "dimensions.title": "Co oceniamy?",
+  "dimensions.impact": "Wpływ",
+  "dimensions.impact.description": "Czy PR wnosi realną wartość? Istotne zmiany funkcjonalności, architektury, performance'u",
+  "dimensions.aiLeverage": "Wykorzystanie AI",
+  "dimensions.aiLeverage.description": "Czy widać, że AI pisało istotną część kodu? Im wyższy wynik, tym lepiej",
+  "dimensions.quality": "Jakość",
+  "dimensions.quality.description": "Inżynieryjna jakość zmian: czy PR jest skoncentrowany, czy kod jest czysty, czy są testy",
+  "dimensions.pirateSummary": "0.14",
+  "dimensions.pirateSummary.description": "Podsumowanie w języku pirackim — bo każdy kod zasługuje na odrobinę humoru!",
+
+  "demo.title": "Przykładowy wynik",
+  "demo.subtitle": "Tak wygląda dashboard po analizie repozytorium",
+
+  "footer.description": "Narzędzie do oceny jakości pull requestów z wykorzystaniem AI",
+  "footer.links": "Linki",
+  "footer.documentation": "Dokumentacja",
+  "footer.api": "API",
+  "footer.github": "GitHub",
+  "footer.legal": "Informacje prawne",
+  "footer.privacy": "Polityka prywatności",
+  "footer.terms": "Regulamin",
+  "footer.copyright": "© 2026 piRate. Wszystkie prawa zastrzeżone.",
+
+  "analyze.title": "Analizowanie repozytorium...",
+  "analyze.steps.fetching": "Pobieranie pull requestów...",
+  "analyze.steps.analyzing": "Analiza kodu przez AI...",
+  "analyze.steps.scoring": "Generowanie ocen...",
+  "analyze.steps.complete": "Analiza zakończona!",
+
+  "dashboard.title": "Wyniki analizy",
+  "dashboard.totalScore": "Wynik całkowity",
+  "dashboard.breakdown": "Szczegółowe wyniki",
+  "dashboard.prList": "Pull Requesty",
+  "dashboard.noResults": "Brak pull requestów do wyświetlenia",
+  "dashboard.recommendations.title": "Rekomendacje AI",
+  "dashboard.export": "Eksportuj wyniki",
+  "dashboard.share": "Udostępnij",
+
+  "filters.sortBy": "Sortuj według",
+  "filters.filterByAuthor": "Filtruj po autorze",
+  "filters.allAuthors": "Wszyscy autorzy",
+
+  "sort.title": "Tytuł",
+  "sort.author": "Autor",
+  "sort.size": "Rozmiar",
+  "sort.impact": "Wpływ",
+  "sort.aiLeverage": "AI",
+  "sort.quality": "Jakość",
+  "sort.total": "Wynik",
+
+  "errors.invalidUrl": "Nieprawidłowy URL repozytorium GitHub",
+  "errors.privateRepo": "To repozytorium jest prywatne. Podaj URL publicznego repo",
+  "errors.noPRs": "Nie znaleziono żadnych merged pull requestów w tym repozytorium",
+  "errors.rateLimit": "Osiągnięto limit zapytań do GitHub API. Spróbuj ponownie za chwilę",
+  "errors.analysisFailed": "Analiza nie powiodła się. Spróbuj ponownie",
+  "errors.general": "Coś poszło nie tak. Spróbuj ponownie później",
+  "errors.retry": "Spróbuj ponownie",
+
+  "language.pl": "Polski",
+  "language.en": "English"
+}

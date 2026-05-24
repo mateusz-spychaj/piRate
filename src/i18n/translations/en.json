@@ -1,0 +1,85 @@
+{
+  "meta.title": "piRate - Rate PR Quality in Your Repository",
+  "meta.description": "AI analyzes pull requests and rates them by impact, quality, and AI leverage",
+
+  "nav.brand": "piRate",
+  "nav.analyze": "Analyze",
+
+  "hero.title": "Rate PR Quality in Your Repository",
+  "hero.subtitle": "AI analyzes pull requests and rates them by impact, code quality, and AI leverage",
+  "hero.placeholder": "https://github.com/owner/repository",
+  "hero.cta": "Analyze Repo",
+  "hero.settings.prs": "How many PRs to analyze?",
+  "hero.settings.prsLabel": "Number of PRs to analyze",
+
+  "socialProof.title": "Trusted by dev teams worldwide",
+
+  "howItWorks.title": "How it works?",
+  "howItWorks.step1.title": "Enter repository URL",
+  "howItWorks.step1.description": "Provide a link to the public GitHub repository you want to evaluate",
+  "howItWorks.step2.title": "AI analyzes PRs",
+  "howItWorks.step2.description": "Our AI fetches merged pull requests and analyzes them across three dimensions",
+  "howItWorks.step3.title": "See results",
+  "howItWorks.step3.description": "Get detailed scores for each PR and an aggregated result for the entire repo",
+
+  "dimensions.title": "What do we rate?",
+  "dimensions.impact": "Impact",
+  "dimensions.impact.description": "Does the PR bring real value? Significant changes to functionality, architecture, performance",
+  "dimensions.aiLeverage": "AI Leverage",
+  "dimensions.aiLeverage.description": "Can you see AI wrote a significant part of the code? Higher is better",
+  "dimensions.quality": "Quality",
+  "dimensions.quality.description": "Engineering quality: is the PR focused, is the code clean, are there tests",
+  "dimensions.pirateSummary": "0.14",
+  "dimensions.pirateSummary.description": "Summary in pirate language — because every code deserves a bit of humor!",
+
+  "demo.title": "Sample result",
+  "demo.subtitle": "This is what the dashboard looks like after analyzing a repository",
+
+  "footer.description": "AI-powered pull request quality rating tool",
+  "footer.links": "Links",
+  "footer.documentation": "Documentation",
+  "footer.api": "API",
+  "footer.github": "GitHub",
+  "footer.legal": "Legal",
+  "footer.privacy": "Privacy Policy",
+  "footer.terms": "Terms of Service",
+  "footer.copyright": "© 2026 piRate. All rights reserved.",
+
+  "analyze.title": "Analyzing repository...",
+  "analyze.steps.fetching": "Fetching pull requests...",
+  "analyze.steps.analyzing": "AI analyzing code...",
+  "analyze.steps.scoring": "Generating scores...",
+  "analyze.steps.complete": "Analysis complete!",
+
+  "dashboard.title": "Analysis Results",
+  "dashboard.totalScore": "Total Score",
+  "dashboard.breakdown": "Detailed Breakdown",
+  "dashboard.prList": "Pull Requests",
+  "dashboard.noResults": "No pull requests to display",
+  "dashboard.recommendations.title": "AI Recommendations",
+  "dashboard.export": "Export Results",
+  "dashboard.share": "Share",
+
+  "filters.sortBy": "Sort by",
+  "filters.filterByAuthor": "Filter by author",
+  "filters.allAuthors": "All authors",
+
+  "sort.title": "Title",
+  "sort.author": "Author",
+  "sort.size": "Size",
+  "sort.impact": "Impact",
+  "sort.aiLeverage": "AI",
+  "sort.quality": "Quality",
+  "sort.total": "Score",
+
+  "errors.invalidUrl": "Invalid GitHub repository URL",
+  "errors.privateRepo": "This repository is private. Provide a public repo URL",
+  "errors.noPRs": "No merged pull requests found in this repository",
+  "errors.rateLimit": "GitHub API rate limit reached. Please try again in a moment",
+  "errors.analysisFailed": "Analysis failed. Please try again",
+  "errors.general": "Something went wrong. Please try again later",
+  "errors.retry": "Try again",
+
+  "language.pl": "Polski",
+  "language.en": "English"
+}
