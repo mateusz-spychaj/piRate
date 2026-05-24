@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import type { RepoAnalysis, SortField, SortDirection } from '../../lib/types';
 import ScoreOverview from './ScoreOverview';
 import RadarChart from './RadarChart';
@@ -47,6 +47,7 @@ export default function ResultsPage({ hash, lang, initialAnalysis }: Props) {
   const [sortField, setSortField] = useState<SortField>('total');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
   const [authorFilter, setAuthorFilter] = useState<string | null>(null);
+  const scoreRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (analysis) {
@@ -169,10 +170,12 @@ export default function ResultsPage({ hash, lang, initialAnalysis }: Props) {
     <div className="space-y-8">
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1" />
-        <ExportButton analysis={analysis} lang={lang} />
+        <ExportButton analysis={analysis} lang={lang} scoreRef={scoreRef} />
       </div>
 
-      <ScoreOverview analysis={analysis} lang={lang} />
+      <div ref={scoreRef}>
+        <ScoreOverview analysis={analysis} lang={lang} />
+      </div>
 
       <AuthorBreakdown stats={analysis.authorStats} lang={lang} />
 
