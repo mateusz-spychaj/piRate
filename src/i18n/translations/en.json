@@ -103,6 +103,7 @@
   "prList.empty": "No pull requests to display",
   "prList.files": "files",
   "prList.openOnGitHub": "Open PR on GitHub",
+  "prList.viewDiff": "View Diff",
 
   "errors.invalidUrl": "Invalid GitHub repository URL",
   "errors.privateRepo": "This repository is private. Provide a public repo URL",

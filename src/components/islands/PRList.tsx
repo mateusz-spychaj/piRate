@@ -1,4 +1,4 @@
-import { ExternalLink, GitPullRequest } from 'lucide-react';
+import { ExternalLink, GitPullRequest, GitCompare } from 'lucide-react';
 import type { PRData } from '../../lib/types';
 import { t, type Language } from '../../i18n';
 
@@ -61,6 +61,16 @@ export default function PRList({ prs, lang }: Props) {
               aria-label={t('prList.openOnGitHub', l)}
             >
               <ExternalLink size={16} />
+            </a>
+            <a
+              href={pr.diffUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shrink-0 p-2 text-text-muted hover:text-primary transition-colors rounded-lg hover:bg-surface"
+              aria-label={t('prList.viewDiff', l)}
+              title={t('prList.viewDiff', l)}
+            >
+              <GitCompare size={16} />
             </a>
           </div>
 

@@ -97,6 +97,7 @@
   "prList.empty": "Brak pull requestów do wyświetlenia",
   "prList.files": "files",
   "prList.openOnGitHub": "Otwórz PR na GitHubie",
+  "prList.viewDiff": "Zobacz diffa",
 
   "errors.invalidUrl": "Nieprawidłowy URL repozytorium GitHub",
   "errors.privateRepo": "To repozytorium jest prywatne. Podaj URL publicznego repo",
