@@ -27,7 +27,9 @@ npm run typecheck # TypeScript check
 
 ## Preview
 
-![πRate score dashboard](https://raw.githubusercontent.com/mateusz-spychaj/piRate/main/public/score.png)
+![πRate score dashboard](data/score.png)
+
+![πRate performance](data/performance.png)
 
 ---
 

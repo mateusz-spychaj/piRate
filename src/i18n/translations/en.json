@@ -113,6 +113,9 @@
   "prList.files": "files",
   "prList.openOnGitHub": "Open PR on GitHub",
   "prList.viewDiff": "View Diff",
+  "prList.hideDiff": "Hide Diff",
+  "prList.diffLoading": "Loading diff…",
+  "prList.diffError": "Failed to load diff",
 
   "errors.invalidUrl": "Invalid GitHub repository URL",
   "errors.privateRepo": "This repository is private. Provide a public repo URL",
