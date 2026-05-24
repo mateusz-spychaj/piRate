@@ -1,0 +1,14 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ResultsPage from '../../components/islands/ResultsPage';
+
+const { hash } = Astro.params;
+---
+
+<Layout title="piRate - Wyniki analizy">
+  <main id="main-content" class="min-h-screen py-8">
+    <div class="container-custom">
+      <ResultsPage hash={hash!} client:load />
+    </div>
+  </main>
+</Layout>
