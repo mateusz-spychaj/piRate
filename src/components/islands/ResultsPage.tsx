@@ -171,12 +171,13 @@ export default function ResultsPage({ hash, lang, initialAnalysis }: Props) {
 
       <AuthorBreakdown stats={analysis.authorStats} lang={lang} />
 
-      <div className="grid lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-1">
-          <RadarChart analysis={analysis} lang={lang} />
-        </div>
-        <div className="lg:col-span-2">
-          <Filters
+      <div className="card p-6">
+        <div className="lg:grid lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-1">
+            <RadarChart analysis={analysis} lang={lang} />
+          </div>
+          <div className="lg:col-span-2">
+            <Filters
             sortField={sortField}
             sortDirection={sortDirection}
             authorFilter={authorFilter}
@@ -190,5 +191,6 @@ export default function ResultsPage({ hash, lang, initialAnalysis }: Props) {
         </div>
       </div>
     </div>
+  </div>
   );
 }
