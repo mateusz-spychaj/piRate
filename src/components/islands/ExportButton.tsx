@@ -32,14 +32,18 @@ export default function ExportButton({ analysis, lang, scoreRef }: Props) {
       const el = scoreRef.current;
       if (!el) return;
 
+      const oklchRegex = /oklch\([^)]+\)/g;
+      const styleEls = Array.from(document.querySelectorAll('style'))
+        .filter((s): s is HTMLStyleElement => s instanceof HTMLStyleElement && !!s.textContent?.includes('oklch'));
+      const backups = styleEls.map((s) => ({ el: s, text: s.textContent! }));
+      styleEls.forEach((s) => { s.textContent = s.textContent!.replace(oklchRegex, 'rgb(128,128,128)'); });
+
       const canvas = await html2canvas(el, {
         backgroundColor: '#ffffff',
         scale: 2,
         useCORS: true,
-        onclone: (clonedDoc, clonedEl: HTMLElement) => {
-          clonedDoc.querySelectorAll('style, link[rel="stylesheet"]').forEach((s) => s.remove());
-
-          const walkOrig = (orig: Element, clone: Element) => {
+        onclone: (_clonedDoc, clonedEl: HTMLElement) => {
+          const walk = (orig: Element, clone: Element) => {
             if (clone instanceof HTMLElement && orig instanceof HTMLElement) {
               const cs = window.getComputedStyle(orig);
               for (let i = 0; i < cs.length; i++) {
@@ -47,16 +51,18 @@ export default function ExportButton({ analysis, lang, scoreRef }: Props) {
                 clone.style.setProperty(prop, cs.getPropertyValue(prop));
               }
             }
-            const origKids = Array.from(orig.children);
-            const cloneKids = Array.from(clone.children);
-            const len = Math.min(origKids.length, cloneKids.length);
-            for (let i = 0; i < len; i++) {
-              walkOrig(origKids[i], cloneKids[i]);
+            const oKids = Array.from(orig.children);
+            const cKids = Array.from(clone.children);
+            for (let i = 0; i < Math.min(oKids.length, cKids.length); i++) {
+              walk(oKids[i], cKids[i]);
             }
           };
-          walkOrig(el, clonedEl);
+          walk(el, clonedEl);
         },
       });
+
+      backups.forEach(({ el, text }) => { el.textContent = text; });
+
       const url = canvas.toDataURL('image/png');
       const a = document.createElement('a');
       a.href = url;
