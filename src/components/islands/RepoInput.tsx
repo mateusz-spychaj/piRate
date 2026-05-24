@@ -83,7 +83,7 @@ export default function RepoInput() {
             }
           }
         }
-        throw new Error('Nie oczekiwany koniec strumienia');
+        throw new Error('Nieoczekiwany koniec strumienia');
       } else {
         const data = await response.json();
         if (!response.ok) throw new Error(data.error || 'Analiza nie powiodła się');
