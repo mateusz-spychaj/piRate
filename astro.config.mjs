@@ -13,8 +13,5 @@ export default defineConfig({
   site: process.env.SITE_URL || 'https://pirate.mateuszspychaj.pl',
   vite: {
     plugins: [tailwindcss()],
-    optimizeDeps: {
-      include: ['dom-to-image-more'],
-    },
   },
 });
