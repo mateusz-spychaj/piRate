@@ -78,6 +78,10 @@
   "dashboard.recommendations.title": "Rekomendacje AI",
   "dashboard.export": "Eksportuj wyniki",
   "dashboard.share": "Udostępnij",
+
+  "export.json": "Eksportuj JSON",
+  "export.png": "Eksportuj PNG",
+  "export.exporting": "Eksportowanie...",
   "dashboard.loading": "Ładowanie wyników...",
   "dashboard.error.title": "Coś poszło nie tak",
   "dashboard.error.back": "Wróć do strony głównej",
