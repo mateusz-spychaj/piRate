@@ -1,0 +1,5 @@
+{
+  "env": {
+    "SITE_URL": "https://pir-rate.vercel.app"
+  }
+}

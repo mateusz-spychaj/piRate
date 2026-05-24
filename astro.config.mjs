@@ -7,11 +7,11 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   integrations: [react()],
   adapter: vercel({
-    imageService: true
+    imageService: true,
   }),
   output: 'server',
-  site: 'https://pirate-rate.vercel.app',
+  site: process.env.SITE_URL || 'https://pir-rate.vercel.app',
   vite: {
-    plugins: [tailwindcss()]
-  }
+    plugins: [tailwindcss()],
+  },
 });
