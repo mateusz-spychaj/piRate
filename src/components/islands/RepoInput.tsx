@@ -49,6 +49,7 @@ export default function RepoInput() {
         const reader = response.body!.getReader();
         const decoder = new TextDecoder();
         let buffer = '';
+        let streamError: string | null = null;
 
         while (true) {
           const { done, value } = await reader.read();
@@ -74,15 +75,15 @@ export default function RepoInput() {
                 window.location.href = `/results/${data.hash}`;
                 return;
               } else if (data.type === 'error') {
-                throw new Error(data.error);
+                streamError = data.error;
               }
-            } catch (parseErr) {
-              if (parseErr instanceof Error && parseErr.message !== 'Analiza nie powiodła się. Spróbuj ponownie') {
-                throw parseErr;
-              }
+            } catch {
+              // skip malformed JSON lines
             }
           }
         }
+
+        if (streamError) throw new Error(streamError);
         throw new Error('Nieoczekiwany koniec strumienia');
       } else {
         const data = await response.json();
