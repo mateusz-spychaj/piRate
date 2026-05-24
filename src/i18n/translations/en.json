@@ -76,6 +76,7 @@
   "errors.privateRepo": "This repository is private. Provide a public repo URL",
   "errors.noPRs": "No merged pull requests found in this repository",
   "errors.rateLimit": "GitHub API rate limit reached. Please try again in a moment",
+  "errors.githubApi": "GitHub API is not responding. Check the URL and try again",
   "errors.analysisFailed": "Analysis failed. Please try again",
   "errors.general": "Something went wrong. Please try again later",
   "errors.retry": "Try again",

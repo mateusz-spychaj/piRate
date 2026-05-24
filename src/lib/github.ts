@@ -19,7 +19,7 @@ interface GitHubPR {
 function getHeaders(): Record<string, string> {
   const headers: Record<string, string> = {
     Accept: "application/vnd.github.v3+json",
-    "User-Agent": "πRate",
+    "User-Agent": "piRate",
   };
   const token = import.meta.env.GITHUB_TOKEN;
   if (token) {
@@ -30,16 +30,23 @@ function getHeaders(): Record<string, string> {
 
 async function githubFetch<T>(path: string): Promise<T> {
   const url = `${GITHUB_API_BASE}${path}`;
-  const response = await fetch(url, { headers: getHeaders() });
+  let response: Response;
 
-  if (response.status === 403) {
-    throw new Error("errors.rateLimit");
+  try {
+    response = await fetch(url, { headers: getHeaders() });
+  } catch (fetchErr) {
+    console.error('[github] fetch error:', fetchErr);
+    throw new Error('errors.githubApi');
+  }
+
+  if (response.status === 401 || response.status === 403) {
+    throw new Error('errors.rateLimit');
   }
   if (response.status === 404) {
-    throw new Error("errors.privateRepo");
+    throw new Error('errors.privateRepo');
   }
   if (!response.ok) {
-    throw new Error("errors.general");
+    throw new Error('errors.githubApi');
   }
 
   return response.json() as Promise<T>;

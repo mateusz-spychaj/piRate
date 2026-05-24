@@ -4,6 +4,8 @@ import { fetchMergedPRs, fetchPRDiff } from '../../lib/github';
 import { analyzePR } from '../../lib/llm';
 import { buildRepoAnalysis } from '../../lib/scoring';
 import { computeHash, getCached, setCache } from '../../lib/cache';
+import { t } from '../../i18n';
+import type { Language } from '../../i18n';
 
 function sendEvent(controller: ReadableStreamDefaultController, data: Record<string, unknown>) {
   controller.enqueue(new TextEncoder().encode(`data: ${JSON.stringify(data)}\n\n`));
@@ -15,7 +17,7 @@ export const POST: APIRoute = async ({ request }) => {
     body = await request.json();
   } catch {
     return new Response(
-      JSON.stringify({ error: 'Nieprawidłowe dane wejściowe' }),
+      JSON.stringify({ error: 'Invalid request body' }),
       { status: 400, headers: { 'Content-Type': 'application/json' } }
     );
   }
@@ -23,13 +25,15 @@ export const POST: APIRoute = async ({ request }) => {
   const parsed = analyzeRequestSchema.safeParse(body);
   if (!parsed.success) {
     const firstIssue = parsed.error.issues[0];
+    const lang = (body as Record<string, unknown> | undefined)?.lang === 'pl' ? 'pl' : 'en' as Language;
+    const messageKey = (firstIssue as { message?: string })?.message ?? 'errors.invalidUrl';
     return new Response(
-      JSON.stringify({ error: (firstIssue as { message?: string })?.message ?? 'Nieprawidłowe dane wejściowe' }),
+      JSON.stringify({ error: t(messageKey, lang) }),
       { status: 400, headers: { 'Content-Type': 'application/json' } }
     );
   }
 
-  const { repoUrl, prCount } = parsed.data;
+  const { repoUrl, prCount, lang } = parsed.data;
   const hash = computeHash(repoUrl, prCount);
   const cached = getCached(hash);
 
@@ -76,17 +80,11 @@ export const POST: APIRoute = async ({ request }) => {
         controller.close();
       } catch (err) {
         const message = err instanceof Error ? err.message : 'errors.general';
-
-        const errorMessages: Record<string, string> = {
-          'errors.rateLimit': 'Osiągnięto limit zapytań do GitHub API. Spróbuj ponownie za chwilę',
-          'errors.privateRepo': 'Repozytorium nie istnieje lub jest prywatne',
-          'errors.noPRs': 'Nie znaleziono merged pull requestów',
-          'errors.invalidUrl': 'Nieprawidłowy URL repozytorium GitHub',
-        };
+        console.error('[analyze]', message, err instanceof Error ? err : '');
 
         sendEvent(controller, {
           type: 'error',
-          error: errorMessages[message] ?? 'Analiza nie powiodła się. Spróbuj ponownie',
+          error: t(message, lang),
         });
 
         controller.close();

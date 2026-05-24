@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Settings, X, Loader2 } from 'lucide-react';
 import { DEFAULT_PR_COUNT, MIN_PR_COUNT, MAX_PR_COUNT } from '../../lib/constants';
+import { getLanguage } from '../../i18n';
 
 type ProgressStep = 'idle' | 'fetching' | 'analyzing' | 'scoring' | 'complete' | 'error';
 
@@ -40,7 +41,7 @@ export default function RepoInput() {
       const response = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ repoUrl: url, prCount }),
+        body: JSON.stringify({ repoUrl: url, prCount, lang: getLanguage() }),
       });
 
       const contentType = response.headers.get('Content-Type') || '';

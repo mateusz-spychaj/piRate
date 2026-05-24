@@ -10,23 +10,32 @@ interface Props {
   initialAnalysis?: RepoAnalysis | null;
 }
 
-function loadFromStorage(hash: string): RepoAnalysis | null {
+function getStorageItem(key: string): string | null {
   try {
-    const raw = sessionStorage.getItem(`pirate-analysis-${hash}`);
-    if (!raw) return null;
-    return JSON.parse(raw) as RepoAnalysis;
+    return typeof sessionStorage !== 'undefined' ? sessionStorage.getItem(key) : null;
   } catch {
     return null;
+  }
+}
+
+function setStorageItem(key: string, value: string): void {
+  try {
+    if (typeof sessionStorage !== 'undefined') {
+      sessionStorage.setItem(key, value);
+    }
+  } catch {
+    // storage unavailable
   }
 }
 
 export default function ResultsPage({ hash, initialAnalysis }: Props) {
   const [analysis, setAnalysis] = useState<RepoAnalysis | null>(() => {
     if (initialAnalysis) {
-      sessionStorage.setItem(`pirate-analysis-${hash}`, JSON.stringify(initialAnalysis));
+      setStorageItem(`pirate-analysis-${hash}`, JSON.stringify(initialAnalysis));
       return initialAnalysis;
     }
-    return loadFromStorage(hash);
+    const raw = getStorageItem(`pirate-analysis-${hash}`);
+    return raw ? JSON.parse(raw) as RepoAnalysis : null;
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -54,14 +63,14 @@ export default function ResultsPage({ hash, initialAnalysis }: Props) {
         }
 
         const data = (await res.json()) as RepoAnalysis;
-        sessionStorage.setItem(`pirate-analysis-${hash}`, JSON.stringify(data));
+        setStorageItem(`pirate-analysis-${hash}`, JSON.stringify(data));
         setAnalysis(data);
       } catch (err) {
         if (err instanceof DOMException && err.name === 'AbortError') return;
 
-        const stored = loadFromStorage(hash);
+        const stored = getStorageItem(`pirate-analysis-${hash}`);
         if (stored) {
-          setAnalysis(stored);
+          setAnalysis(JSON.parse(stored) as RepoAnalysis);
         } else {
           setError(err instanceof Error ? err.message : 'Wystąpił błąd podczas ładowania wyników');
         }
