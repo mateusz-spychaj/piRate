@@ -34,7 +34,7 @@ export default function ExportButton({ analysis, lang, scoreRef }: Props) {
 
       const style = document.createElement('style');
       style.textContent = `
-        .card { box-shadow: none !important; }
+        .card { box-shadow: none !important; border-color: #d1d5db !important; }
         [class*="shadow"] { box-shadow: none !important; }
       `;
       document.head.appendChild(style);
