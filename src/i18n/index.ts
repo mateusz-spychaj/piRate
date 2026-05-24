@@ -9,14 +9,26 @@ const translations: Record<Language, Translations> = { pl, en };
 
 export function getLanguage(): Language {
   if (typeof window === 'undefined') return 'en';
-  const stored = localStorage.getItem('pirate-lang') as Language | null;
-  if (stored && translations[stored]) return stored;
-  const browserLang = navigator.language.toLowerCase();
-  return browserLang.startsWith('pl') ? 'pl' : 'en';
+  try {
+    const stored = localStorage.getItem('pirate-lang') as Language | null;
+    if (stored && translations[stored]) return stored;
+  } catch {
+    // storage unavailable
+  }
+  try {
+    const browserLang = navigator.language.toLowerCase();
+    return browserLang.startsWith('pl') ? 'pl' : 'en';
+  } catch {
+    return 'en';
+  }
 }
 
 export function setLanguage(lang: Language): void {
-  localStorage.setItem('pirate-lang', lang);
+  try {
+    localStorage.setItem('pirate-lang', lang);
+  } catch {
+    // storage unavailable
+  }
 }
 
 export function t(key: string, lang?: Language): string {
