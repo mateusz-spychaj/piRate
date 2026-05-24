@@ -18,7 +18,6 @@ interface Props {
 export default function RadarChart({ analysis, lang }: Props) {
   const l = lang as Language;
   const containerRef = useRef<HTMLDivElement>(null);
-  const chartRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
   const { avgImpact, avgAiLeverage, avgQuality, prs } = analysis;
 
@@ -33,15 +32,6 @@ export default function RadarChart({ analysis, lang }: Props) {
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
-
-  useEffect(() => {
-    const el = chartRef.current;
-    if (!el) return;
-    const timer = setTimeout(() => {
-      el.querySelectorAll('[tabindex]').forEach((e) => e.removeAttribute('tabindex'));
-    }, 50);
-    return () => clearTimeout(timer);
-  }, [width]);
 
   const data = [
     { dimension: t("dimensions.impact", l), score: avgImpact },
@@ -65,7 +55,6 @@ export default function RadarChart({ analysis, lang }: Props) {
 
       <div ref={containerRef} className="w-full" style={{ minHeight: 300 }}>
         {width > 0 && (
-          <div ref={chartRef} role="img" aria-label={t("dashboard.visualization", l)}>
           <RechartsRadar
             width={width}
             height={300}
@@ -105,7 +94,6 @@ export default function RadarChart({ analysis, lang }: Props) {
               }}
             />
           </RechartsRadar>
-          </div>
         )}
       </div>
 

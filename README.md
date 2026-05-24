@@ -30,7 +30,6 @@ npm run typecheck # TypeScript check
 ![πRate score dashboard](data/score.png)
 
 App has good Performance score in the Lighthouse test:
-
 ![πRate performance](data/performance.png)
 
 ---
