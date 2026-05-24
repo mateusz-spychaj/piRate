@@ -13,7 +13,7 @@ const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
 function getConfig() {
   return {
     apiKey: import.meta.env.OPENROUTER_API_KEY as string | undefined,
-    model: (import.meta.env.LLM_MODEL as string) || "openai/gpt-4o-mini",
+    model: (import.meta.env.LLM_MODEL as string) || "meta-llama/llama-3.1-8b-instruct",
     siteUrl:
       (import.meta.env.SITE_URL as string) || "https://pirate-rate.vercel.app",
   };

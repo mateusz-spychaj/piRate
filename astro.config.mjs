@@ -10,7 +10,7 @@ export default defineConfig({
     imageService: true,
   }),
   output: 'server',
-  site: process.env.SITE_URL || 'https://pirate-rate.vercel.app',
+  site: process.env.SITE_URL || 'https://pir-rate.vercel.app',
   vite: {
     plugins: [tailwindcss()],
   },
