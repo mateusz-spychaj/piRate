@@ -39,8 +39,7 @@ export default function ResultsPage({ hash, lang, initialAnalysis }: Props) {
       setStorageItem(`pirate-analysis-${hash}`, JSON.stringify(initialAnalysis));
       return initialAnalysis;
     }
-    const raw = getStorageItem(`pirate-analysis-${hash}`);
-    return raw ? JSON.parse(raw) as RepoAnalysis : null;
+    return null;
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -53,6 +52,17 @@ export default function ResultsPage({ hash, lang, initialAnalysis }: Props) {
     if (analysis) {
       setLoading(false);
       return;
+    }
+
+    const stored = getStorageItem(`pirate-analysis-${hash}`);
+    if (stored) {
+      try {
+        setAnalysis(JSON.parse(stored) as RepoAnalysis);
+        setLoading(false);
+        return;
+      } catch {
+        // corrupted data, proceed to fetch
+      }
     }
 
     const controller = new AbortController();
@@ -73,12 +83,7 @@ export default function ResultsPage({ hash, lang, initialAnalysis }: Props) {
       } catch (err) {
         if (err instanceof DOMException && err.name === 'AbortError') return;
 
-        const stored = getStorageItem(`pirate-analysis-${hash}`);
-        if (stored) {
-          setAnalysis(JSON.parse(stored) as RepoAnalysis);
-        } else {
-          setError(err instanceof Error ? err.message : 'Wystąpił błąd podczas ładowania wyników');
-        }
+        setError(err instanceof Error ? err.message : 'Wystąpił błąd podczas ładowania wyników');
       } finally {
         setLoading(false);
       }
