@@ -4,9 +4,11 @@ import ScoreOverview from './ScoreOverview';
 import RadarChart from './RadarChart';
 import PRList from './PRList';
 import Filters from './Filters';
+import { t, type Language } from '../../i18n';
 
 interface Props {
   hash: string;
+  lang: string;
   initialAnalysis?: RepoAnalysis | null;
 }
 
@@ -28,7 +30,8 @@ function setStorageItem(key: string, value: string): void {
   }
 }
 
-export default function ResultsPage({ hash, initialAnalysis }: Props) {
+export default function ResultsPage({ hash, lang, initialAnalysis }: Props) {
+  const l = lang as Language;
   const [analysis, setAnalysis] = useState<RepoAnalysis | null>(() => {
     if (initialAnalysis) {
       setStorageItem(`pirate-analysis-${hash}`, JSON.stringify(initialAnalysis));
@@ -134,7 +137,7 @@ export default function ResultsPage({ hash, initialAnalysis }: Props) {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-text-secondary">Ładowanie wyników...</p>
+          <p className="text-text-secondary">{t('dashboard.loading', l)}</p>
         </div>
       </div>
     );
@@ -145,9 +148,9 @@ export default function ResultsPage({ hash, initialAnalysis }: Props) {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center max-w-md">
           <div className="text-4xl mb-4">😞</div>
-          <h2 className="text-xl font-bold text-text-primary mb-2">Coś poszło nie tak</h2>
+          <h2 className="text-xl font-bold text-text-primary mb-2">{t('dashboard.error.title', l)}</h2>
           <p className="text-text-secondary mb-6">{error}</p>
-          <a href="/" className="btn-primary inline-block">Wróć do strony głównej</a>
+          <a href="/" className="btn-primary inline-block">{t('dashboard.error.back', l)}</a>
         </div>
       </div>
     );
@@ -157,11 +160,11 @@ export default function ResultsPage({ hash, initialAnalysis }: Props) {
 
   return (
     <div className="space-y-8">
-      <ScoreOverview analysis={analysis} />
+      <ScoreOverview analysis={analysis} lang={lang} />
 
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-1">
-          <RadarChart analysis={analysis} />
+          <RadarChart analysis={analysis} lang={lang} />
         </div>
         <div className="lg:col-span-2">
           <Filters
@@ -169,11 +172,12 @@ export default function ResultsPage({ hash, initialAnalysis }: Props) {
             sortDirection={sortDirection}
             authorFilter={authorFilter}
             authors={authors}
+            lang={lang}
             onSortFieldChange={setSortField}
             onSortDirectionChange={setSortDirection}
             onAuthorFilterChange={setAuthorFilter}
           />
-          <PRList prs={filteredPRs} />
+          <PRList prs={filteredPRs} lang={lang} />
         </div>
       </div>
     </div>

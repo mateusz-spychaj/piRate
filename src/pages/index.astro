@@ -6,15 +6,18 @@ import HowItWorks from '../components/landing/HowItWorks.astro';
 import ScoringDimensions from '../components/landing/ScoringDimensions.astro';
 import DemoPreview from '../components/landing/DemoPreview.astro';
 import Footer from '../components/landing/Footer.astro';
+import { t } from '../i18n';
+
+const lang = (Astro.locals as any).lang ?? 'pl';
 ---
 
-<Layout title="πRate - Oceń jakość PRów w swoim repozytorium">
+<Layout title={t('meta.title', lang)} description={t('meta.description', lang)}>
   <main id="main-content">
-    <Hero />
-    <SocialProof />
-    <HowItWorks />
-    <ScoringDimensions />
-    <DemoPreview />
-    <Footer />
+    <Hero lang={lang} />
+    <SocialProof lang={lang} />
+    <HowItWorks lang={lang} />
+    <ScoringDimensions lang={lang} />
+    <DemoPreview lang={lang} />
+    <Footer lang={lang} />
   </main>
 </Layout>

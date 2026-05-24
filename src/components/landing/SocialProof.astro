@@ -1,26 +1,29 @@
 ---
-interface Testimonial {
-  quote: string;
-  name: string;
-  role: string;
-  company: string;
+import { t } from '../../i18n';
+import type { Language } from '../../i18n';
+
+interface Props {
+  lang: string;
 }
 
-const testimonials: Testimonial[] = [
+const { lang } = Astro.props;
+const l = lang as Language;
+
+const testimonials = [
   {
-    quote: 'πRate totalnie zmienił sposób w jaki nasz team reviewuje PRy. AI dostarcza obiektywnych metryk do daily discussion. Jakość kodu wzrosła o 40% w 3 miesiące.',
+    quote: 'piRate.quote1',
     name: 'Marcus Chen',
     role: 'Senior Developer',
     company: 'TechFlow',
   },
   {
-    quote: 'Byłem sceptyczny, ale po przepuszczeniu 50 PRów przez πRate wnioski otworzyły mi oczy. Sam AI Leverage score pomógł nam znaleźć obszary do automatyzacji.',
+    quote: 'piRate.quote2',
     name: 'Sarah Okafor',
     role: 'Engineering Manager',
     company: 'DataBridge',
   },
   {
-    quote: 'W końcu narzędzie które mówi językiem zarówno devów jak i managerów. Podsumowanie pirackie to nasza nowa ulubiona integracja Slackowa.',
+    quote: 'piRate.quote3',
     name: 'Alex Rivera',
     role: 'CTO',
     company: 'ScaleUp Labs',
@@ -32,15 +35,15 @@ const testimonials: Testimonial[] = [
   <div class="container-custom">
     <div class="text-center mb-12">
       <p class="text-sm text-text-muted uppercase tracking-wider mb-3">
-        Zaufali nam
+        {t('socialProof.title', l)}
       </p>
       <h2 class="text-3xl font-bold text-text-primary">
-        Co mówią użytkownicy
+        {t('socialProof.subtitle', l)}
       </h2>
     </div>
 
     <div class="grid md:grid-cols-3 gap-6">
-      {testimonials.map((t) => (
+      {testimonials.map((test) => (
         <article class="rounded-xl bg-white dark:bg-gray-800 border border-border dark:border-gray-700 p-6 shadow-md flex flex-col">
           <div class="flex gap-1 mb-4" aria-label="5 na 5 gwiazdek">
             {[1, 2, 3, 4, 5].map(() => (
@@ -51,13 +54,13 @@ const testimonials: Testimonial[] = [
           </div>
 
           <blockquote class="text-sm leading-relaxed text-text-secondary dark:text-gray-200 mb-6 flex-1">
-            &ldquo;{t.quote}&rdquo;
+            &ldquo;{t(test.quote, l)}&rdquo;
           </blockquote>
 
           <footer class="border-t border-border dark:border-gray-700 pt-4">
-            <div class="font-semibold text-sm text-text-primary">{t.name}</div>
+            <div class="font-semibold text-sm text-text-primary">{test.name}</div>
             <div class="text-xs text-text-muted dark:text-gray-400">
-              {t.role} · {t.company}
+              {test.role} · {test.company}
             </div>
           </footer>
         </article>

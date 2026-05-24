@@ -1,11 +1,19 @@
 import { ExternalLink, GitPullRequest } from 'lucide-react';
 import type { PRData } from '../../lib/types';
+import { t, type Language } from '../../i18n';
 
 interface Props {
   prs: PRData[];
+  lang: string;
 }
 
-function ScoreBadge({ value, label }: { value: number; label: string }) {
+function ScoreBadge({
+  value,
+  label,
+}: {
+  value: number;
+  label: string;
+}) {
   const color = value >= 70 ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300' :
                 value >= 40 ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300' :
                 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300';
@@ -17,12 +25,14 @@ function ScoreBadge({ value, label }: { value: number; label: string }) {
   );
 }
 
-export default function PRList({ prs }: Props) {
+export default function PRList({ prs, lang }: Props) {
+  const l = lang as Language;
+
   if (prs.length === 0) {
     return (
       <div className="card text-center py-12">
         <GitPullRequest size={32} className="text-text-muted mx-auto mb-3" />
-        <p className="text-text-secondary">Brak pull requestów do wyświetlenia</p>
+        <p className="text-text-secondary">{t('prList.empty', l)}</p>
       </div>
     );
   }
@@ -39,7 +49,7 @@ export default function PRList({ prs }: Props) {
               </div>
               <h3 className="font-medium text-text-primary truncate">{pr.title}</h3>
               <p className="text-xs text-text-muted mt-1">
-                +{pr.additions}/-{pr.deletions} · {pr.changedFiles} files
+                +{pr.additions}/-{pr.deletions} · {pr.changedFiles} {t('prList.files', l)}
               </p>
             </div>
 
@@ -48,17 +58,17 @@ export default function PRList({ prs }: Props) {
               target="_blank"
               rel="noopener noreferrer"
               className="shrink-0 p-2 text-text-muted hover:text-text-primary transition-colors rounded-lg hover:bg-surface"
-              aria-label={`Open PR #${pr.number} on GitHub`}
+              aria-label={t('prList.openOnGitHub', l)}
             >
               <ExternalLink size={16} />
             </a>
           </div>
 
           <div className="flex flex-wrap gap-1.5 mt-3">
-            <ScoreBadge value={pr.score.impact} label="Wpływ" />
-            <ScoreBadge value={pr.score.aiLeverage} label="AI" />
-            <ScoreBadge value={pr.score.quality} label="Jakość" />
-            <ScoreBadge value={pr.score.total} label="Wynik" />
+            <ScoreBadge value={pr.score.impact} label={t('dimensions.impact', l)} />
+            <ScoreBadge value={pr.score.aiLeverage} label={t('dimensions.aiLeverage', l)} />
+            <ScoreBadge value={pr.score.quality} label={t('dimensions.quality', l)} />
+            <ScoreBadge value={pr.score.total} label={t('dashboard.totalScore', l)} />
           </div>
         </article>
       ))}

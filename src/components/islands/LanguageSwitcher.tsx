@@ -2,13 +2,6 @@ import { useState, useEffect } from 'react';
 import { Globe } from 'lucide-react';
 import { getLanguage, setLanguage, type Language } from '../../i18n';
 
-function getLangs(): { code: Language; label: string }[] {
-  return [
-    { code: 'pl', label: 'Polski' },
-    { code: 'en', label: 'English' },
-  ];
-}
-
 export default function LanguageSwitcher() {
   const [currentLang, setCurrentLang] = useState<Language>('pl');
   const [open, setOpen] = useState(false);
@@ -16,8 +9,6 @@ export default function LanguageSwitcher() {
   useEffect(() => {
     setCurrentLang(getLanguage());
   }, []);
-
-  const langs = getLangs();
 
   return (
     <div className="relative">
@@ -33,13 +24,14 @@ export default function LanguageSwitcher() {
 
       {open && (
         <div className="absolute right-0 mt-2 w-36 bg-white dark:bg-gray-800 rounded-xl border border-border shadow-lg z-50 overflow-hidden">
-          {langs.map((l) => (
+          {[
+            { code: 'pl' as const, label: 'Polski' },
+            { code: 'en' as const, label: 'English' },
+          ].map((l) => (
             <button
               key={l.code}
               onClick={() => {
                 setLanguage(l.code);
-                setCurrentLang(l.code);
-                setOpen(false);
                 window.location.reload();
               }}
               className={`w-full text-left px-4 py-2.5 text-sm hover:bg-surface transition-colors cursor-pointer ${

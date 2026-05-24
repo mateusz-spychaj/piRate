@@ -9,7 +9,8 @@ interface Props {
   lang?: string;
 }
 
-const { title, description = 'AI-powered pull request quality rating tool', lang = 'pl' } = Astro.props;
+const { title, description = 'AI-powered pull request quality rating tool' } = Astro.props;
+const lang = Astro.props.lang ?? (Astro.locals as any).lang ?? 'pl';
 ---
 
 <!doctype html>

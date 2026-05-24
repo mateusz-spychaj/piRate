@@ -26,6 +26,7 @@ export function getLanguage(): Language {
 export function setLanguage(lang: Language): void {
   try {
     localStorage.setItem('pirate-lang', lang);
+    document.cookie = `pirate-lang=${lang};path=/;max-age=31536000;SameSite=Lax`;
   } catch {
     // storage unavailable
   }

@@ -2,15 +2,17 @@
 import Layout from '../../layouts/Layout.astro';
 import ResultsPage from '../../components/islands/ResultsPage';
 import { getCached } from '../../lib/cache';
+import { t } from '../../i18n';
 
 const { hash } = Astro.params;
 const cached = hash ? getCached(hash) : null;
+const lang = (Astro.locals as any).lang ?? 'pl';
 ---
 
-<Layout title="πRate - Wyniki analizy">
+<Layout title={t('dashboard.title', lang)}>
   <main id="main-content" class="min-h-screen py-8">
     <div class="container-custom">
-      <ResultsPage hash={hash!} initialAnalysis={cached} client:load />
+      <ResultsPage hash={hash!} lang={lang} initialAnalysis={cached} client:load />
     </div>
   </main>
 </Layout>
