@@ -14,6 +14,23 @@ npm install && npm run dev
 
 Optionally copy `.env.example` and set `OPENROUTER_API_KEY` for real AI analysis (without it, mock scores are used).
 
+### Run tests
+
+```bash
+npm test          # Unit tests (Vitest)
+npm run test:e2e  # E2E tests (Playwright)
+npm run test:all  # All tests
+npm run typecheck # TypeScript check
+```
+
+---
+
+## Preview
+
+![πRate score dashboard](data/score.png)
+
+![πRate performance](data/performance.png)
+
 ---
 
 ## 2. Stack & justification
