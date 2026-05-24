@@ -28,34 +28,46 @@ export default function ExportButton({ analysis, lang, scoreRef }: Props) {
   const exportPNG = useCallback(async () => {
     setExporting('png');
     try {
-      const { toPng } = await import('dom-to-image-more');
       const el = scoreRef.current;
       if (!el) return;
 
-      const style = document.createElement('style');
-      style.textContent = `
-        .card { box-shadow: none !important; border-color: #d1d5db !important; }
-        [class*="shadow"] { box-shadow: none !important; }
-      `;
-      document.head.appendChild(style);
-
-      const dataUrl = await toPng(el, {
-        cacheBust: true,
-        filter: (node: Node) =>
-          !(node instanceof Element && node.hasAttribute('data-export-hide')),
+      // Temporarily hide elements that should not appear in the export.
+      // We use visibility:hidden instead of display:none to preserve layout
+      // so html2canvas captures the correct dimensions.
+      const hidden = Array.from(
+        el.querySelectorAll<HTMLElement>('[data-export-hide]'),
+      );
+      hidden.forEach((node) => {
+        node.dataset.exportHideOrig = node.style.visibility;
+        node.style.visibility = 'hidden';
       });
 
-      style.remove();
+      // Capture the live element — html2canvas can read all page stylesheets,
+      // so Tailwind utilities and CSS custom properties resolve correctly.
+      const html2canvas = (await import('html2canvas')).default;
+      const canvas = await html2canvas(el, {
+        backgroundColor: '#ffffff',
+        scale: 2,
+        useCORS: true,
+        logging: false,
+      });
 
+      // Restore hidden elements
+      hidden.forEach((node) => {
+        node.style.visibility = node.dataset.exportHideOrig ?? '';
+        delete node.dataset.exportHideOrig;
+      });
+
+      const url = canvas.toDataURL('image/png');
       const a = document.createElement('a');
-      a.href = dataUrl;
+      a.href = url;
       a.download = `${analysis.repoName.replace('/', '-')}-badge.png`;
       a.click();
     } catch (err) {
       console.error('PNG export failed:', err);
     }
     setTimeout(() => setExporting('idle'), 1000);
-  }, [analysis]);
+  }, [analysis, scoreRef]);
 
   return (
     <div className="flex flex-wrap items-center gap-2">
