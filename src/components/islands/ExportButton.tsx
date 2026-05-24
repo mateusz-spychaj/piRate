@@ -36,25 +36,25 @@ export default function ExportButton({ analysis, lang, scoreRef }: Props) {
         backgroundColor: '#ffffff',
         scale: 2,
         useCORS: true,
-        onclone: (clonedDoc) => {
-          const origWalker = document.createTreeWalker(el, NodeFilter.SHOW_ELEMENT);
-          const clonedWalker = clonedDoc.createTreeWalker(clonedDoc.body, NodeFilter.SHOW_ELEMENT);
-          let origNode: Node | null = origWalker.currentNode;
-          let clonedNode: Node | null = clonedWalker.currentNode;
-          const props = ['color', 'background-color', 'border-color', 'fill', 'stroke'];
-          while (origNode && clonedNode) {
-            if (origNode instanceof HTMLElement && clonedNode instanceof HTMLElement) {
-              const computed = window.getComputedStyle(origNode as Element);
-              for (const prop of props) {
-                const val = computed.getPropertyValue(prop);
-                if (val && val.includes('oklch')) {
-                  (clonedNode.style as CSSStyleDeclaration).setProperty(prop, val);
-                }
+        onclone: (clonedDoc, clonedEl: HTMLElement) => {
+          clonedDoc.querySelectorAll('style, link[rel="stylesheet"]').forEach((s) => s.remove());
+
+          const walkOrig = (orig: Element, clone: Element) => {
+            if (clone instanceof HTMLElement && orig instanceof HTMLElement) {
+              const cs = window.getComputedStyle(orig);
+              for (let i = 0; i < cs.length; i++) {
+                const prop = cs[i];
+                clone.style.setProperty(prop, cs.getPropertyValue(prop));
               }
             }
-            origNode = origWalker.nextNode();
-            clonedNode = clonedWalker.nextNode();
-          }
+            const origKids = Array.from(orig.children);
+            const cloneKids = Array.from(clone.children);
+            const len = Math.min(origKids.length, cloneKids.length);
+            for (let i = 0; i < len; i++) {
+              walkOrig(origKids[i], cloneKids[i]);
+            }
+          };
+          walkOrig(el, clonedEl);
         },
       });
       const url = canvas.toDataURL('image/png');
