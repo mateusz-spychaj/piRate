@@ -23,7 +23,7 @@ export default function LanguageSwitcher() {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 text-sm text-text-secondary hover:text-text-primary transition-colors rounded-lg hover:bg-surface"
+        className="flex items-center gap-2 px-3 py-2 text-sm text-text-secondary hover:text-text-primary transition-colors rounded-lg hover:bg-surface cursor-pointer"
         aria-label="Change language"
         aria-expanded={isOpen}
       >
@@ -32,12 +32,12 @@ export default function LanguageSwitcher() {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-40 bg-white rounded-xl border border-border shadow-lg z-50 animate-fade-in" role="listbox">
+        <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 rounded-xl border border-border shadow-lg z-50 animate-fade-in" role="listbox">
           {languages.map((lang) => (
-            <button
+              <button
               key={lang.code}
               onClick={() => handleSelect(lang.code)}
-              className={`w-full text-left px-4 py-2.5 text-sm hover:bg-surface transition-colors first:rounded-t-xl last:rounded-b-xl ${
+              className={`w-full text-left px-4 py-2.5 text-sm hover:bg-surface transition-colors first:rounded-t-xl last:rounded-b-xl cursor-pointer ${
                 currentLang === lang.code ? 'text-primary font-semibold' : 'text-text-primary'
               }`}
               role="option"

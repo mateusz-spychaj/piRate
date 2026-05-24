@@ -50,9 +50,9 @@ export default function RadarChart({ analysis }: Props) {
       <div ref={containerRef} className="w-full" style={{ minHeight: 300 }}>
         {width > 0 && (
           <RechartsRadar width={width} height={300} data={data} cx="50%" cy="50%" outerRadius="75%">
-            <PolarGrid stroke="#e2e8f0" />
-            <PolarAngleAxis dataKey="dimension" tick={{ fontSize: 12, fill: '#64748b' }} />
-            <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fontSize: 10, fill: '#94a3b8' }} />
+            <PolarGrid stroke="var(--color-border, #e2e8f0)" />
+            <PolarAngleAxis dataKey="dimension" tick={{ fontSize: 12, fill: 'var(--color-text-secondary, #64748b)' }} />
+            <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fontSize: 10, fill: 'var(--color-text-muted, #94a3b8)' }} />
             <Radar
               name="Średnia"
               dataKey="score"
@@ -63,10 +63,11 @@ export default function RadarChart({ analysis }: Props) {
             />
             <Tooltip
               contentStyle={{
-                background: '#fff',
-                border: '1px solid #e2e8f0',
+                background: 'var(--color-bg-tooltip, #fff)',
+                border: '1px solid var(--color-border, #e2e8f0)',
                 borderRadius: '8px',
                 fontSize: '14px',
+                color: 'var(--color-text-primary, #0f172a)',
               }}
             />
           </RechartsRadar>
@@ -80,7 +81,7 @@ export default function RadarChart({ analysis }: Props) {
             {prData.map((pr) => (
               <div key={pr.dimension} className="flex items-center gap-2 text-xs">
                 <span className="text-text-muted w-10">{pr.dimension}</span>
-                <div className="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                <div className="flex-1 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                   <div
                     className="h-full rounded-full bg-primary/60"
                     style={{ width: `${pr.score}%` }}

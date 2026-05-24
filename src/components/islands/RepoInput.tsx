@@ -129,7 +129,7 @@ export default function RepoInput() {
           <button
             type="button"
             onClick={() => setShowSettings(!showSettings)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-text-muted hover:text-text-primary transition-colors rounded-lg hover:bg-surface"
+            className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-text-muted hover:text-text-primary transition-colors rounded-lg hover:bg-surface cursor-pointer disabled:cursor-not-allowed"
             aria-label="Ustawienia analizy"
             aria-expanded={showSettings}
             disabled={isLoading}
@@ -160,7 +160,7 @@ export default function RepoInput() {
             <span>Postęp analizy</span>
             <span>{progress.current}/{progress.total} PRów</span>
           </div>
-          <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+          <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
             <div
               className="h-full rounded-full bg-primary transition-all duration-500"
               style={{ width: `${progressPercent}%` }}
@@ -172,7 +172,7 @@ export default function RepoInput() {
       {error && <p className="mt-3 text-sm text-danger" role="alert">{error}</p>}
 
       {showSettings && !isLoading && (
-        <div className="absolute top-full left-0 right-0 mt-2 p-4 bg-white rounded-xl border border-border shadow-lg z-10 animate-fade-in">
+        <div className="absolute top-full left-0 right-0 mt-2 p-4 bg-white dark:bg-gray-800 rounded-xl border border-border shadow-lg z-10 animate-fade-in">
           <label className="block text-sm font-medium text-text-primary mb-2">
             Ile PRów analizować?
           </label>
