@@ -1,23 +1,45 @@
+import { useState, useEffect } from 'react';
 import type { RepoAnalysis } from '../../lib/types';
 import { t, type Language } from '../../i18n';
+import { useInView } from '../../hooks/useInView';
 
 interface Props {
   analysis: RepoAnalysis;
   lang: string;
 }
 
-function ScoreRing({
+function AnimatedScoreRing({
   value,
   label,
   color,
+  inView,
 }: {
   value: number;
   label: string;
   color: string;
+  inView: boolean;
 }) {
+  const [animatedValue, setAnimatedValue] = useState(0);
   const radius = 54;
   const circumference = 2 * Math.PI * radius;
-  const offset = circumference - (value / 100) * circumference;
+  const offset = circumference - (animatedValue / 100) * circumference;
+
+  useEffect(() => {
+    if (!inView) return;
+    let frame: number;
+    const start = performance.now();
+    const duration = 1000;
+
+    function animate(now: number) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      setAnimatedValue(Math.round(progress * value));
+      if (progress < 1) frame = requestAnimationFrame(animate);
+    }
+
+    frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
+  }, [inView, value]);
 
   return (
     <svg
@@ -44,9 +66,9 @@ function ScoreRing({
         stroke={color}
         strokeWidth="8"
         strokeDasharray={circumference}
-        strokeDashoffset={offset}
+        strokeDashoffset={inView ? offset : circumference}
         strokeLinecap="round"
-        className="transition-all duration-1000"
+        className="transition-all duration-1000 ease-out"
         transform="rotate(-90 64 64)"
       />
       <text
@@ -58,9 +80,46 @@ function ScoreRing({
         fontWeight="bold"
         fill={color}
       >
-        {value}
+        {animatedValue}
       </text>
     </svg>
+  );
+}
+
+function AnimatedBar({
+  value,
+  label,
+  color,
+  inView,
+  delay,
+}: {
+  value: number;
+  label: string;
+  color: string;
+  inView: boolean;
+  delay: number;
+}) {
+  const [width, setWidth] = useState(0);
+
+  useEffect(() => {
+    if (!inView) return;
+    const timer = setTimeout(() => setWidth(value), delay);
+    return () => clearTimeout(timer);
+  }, [inView, value, delay]);
+
+  return (
+    <div>
+      <div className="flex justify-between text-sm mb-1">
+        <span className="text-text-primary font-medium">{label}</span>
+        <span className="text-text-secondary">{value}/100</span>
+      </div>
+      <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+        <div
+          className="h-full rounded-full transition-all duration-1000 ease-out"
+          style={{ width: `${width}%`, backgroundColor: color }}
+        />
+      </div>
+    </div>
   );
 }
 
@@ -74,6 +133,7 @@ const THRESHOLDS = [40, 60, 80];
 export default function ScoreOverview({ analysis, lang }: Props) {
   const l = lang as Language;
   const labels = SCORE_LABELS[l] ?? SCORE_LABELS.en;
+  const { ref, inView } = useInView({ threshold: 0.3 });
   const {
     totalScore,
     avgImpact,
@@ -84,7 +144,7 @@ export default function ScoreOverview({ analysis, lang }: Props) {
   } = analysis;
 
   const getScoreColor = (score: number) => {
-    if (score >= 70) return '#10b981';
+    if (score >= 70) return '#00B894';
     if (score >= 40) return '#f59e0b';
     return '#ef4444';
   };
@@ -97,14 +157,15 @@ export default function ScoreOverview({ analysis, lang }: Props) {
   };
 
   return (
-    <section className="card">
+    <section ref={ref} className="card">
       <div className="grid md:grid-cols-2 gap-8">
         <div className="flex flex-col items-center justify-center text-center">
           <div className="relative flex items-center justify-center mb-4">
-            <ScoreRing
+            <AnimatedScoreRing
               value={totalScore}
               label={t('dashboard.totalScore', l)}
               color={getScoreColor(totalScore)}
+              inView={inView}
             />
           </div>
           <h2 className="text-3xl font-bold text-text-primary">
@@ -119,24 +180,18 @@ export default function ScoreOverview({ analysis, lang }: Props) {
           <h3 className="font-semibold text-text-primary">{t('dashboard.dimensions', l)}</h3>
 
           {[
-            { label: t('dimensions.impact', l), value: avgImpact, color: '#1a73e8' },
-            { label: t('dimensions.aiLeverage', l), value: avgAiLeverage, color: '#8b5cf6' },
-            { label: t('dimensions.quality', l), value: avgQuality, color: '#10b981' },
-          ].map((dim) => (
-            <div key={dim.label}>
-              <div className="flex justify-between text-sm mb-1">
-                <span className="text-text-primary font-medium">
-                  {dim.label}
-                </span>
-                <span className="text-text-secondary">{dim.value}/100</span>
-              </div>
-                <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                <div
-                  className="h-full rounded-full transition-all duration-1000"
-                  style={{ width: `${dim.value}%`, backgroundColor: dim.color }}
-                />
-              </div>
-            </div>
+            { label: t('dimensions.impact', l), value: avgImpact, color: '#6C5CE7' },
+            { label: t('dimensions.aiLeverage', l), value: avgAiLeverage, color: '#8B5CF6' },
+            { label: t('dimensions.quality', l), value: avgQuality, color: '#00B894' },
+          ].map((dim, i) => (
+            <AnimatedBar
+              key={dim.label}
+              value={dim.value}
+              label={dim.label}
+              color={dim.color}
+              inView={inView}
+              delay={i * 150}
+            />
           ))}
         </div>
       </div>
