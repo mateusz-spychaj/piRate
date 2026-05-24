@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "api/**/*.ts": {
+      "maxDuration": 60
+    }
+  },
+  "env": {
+    "SITE_URL": "https://pirate-rate.vercel.app"
+  }
+}
