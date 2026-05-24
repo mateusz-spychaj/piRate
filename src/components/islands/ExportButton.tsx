@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Download, FileJson, Camera } from 'lucide-react';
 import { t, type Language } from '../../i18n';
 import type { RepoAnalysis } from '../../lib/types';
@@ -6,12 +6,12 @@ import type { RepoAnalysis } from '../../lib/types';
 interface Props {
   analysis: RepoAnalysis;
   lang: string;
+  scoreRef: React.RefObject<HTMLDivElement | null>;
 }
 
-export default function ExportButton({ analysis, lang }: Props) {
+export default function ExportButton({ analysis, lang, scoreRef }: Props) {
   const l = lang as Language;
   const [exporting, setExporting] = useState<'idle' | 'json' | 'png'>('idle');
-  const scoreRef = useRef<HTMLDivElement>(null);
 
   const exportJSON = useCallback(() => {
     setExporting('json');
