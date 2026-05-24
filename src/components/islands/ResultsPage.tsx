@@ -4,6 +4,7 @@ import ScoreOverview from './ScoreOverview';
 import RadarChart from './RadarChart';
 import PRList from './PRList';
 import Filters from './Filters';
+import AuthorBreakdown from './AuthorBreakdown';
 import { t, type Language } from '../../i18n';
 
 interface Props {
@@ -161,6 +162,8 @@ export default function ResultsPage({ hash, lang, initialAnalysis }: Props) {
   return (
     <div className="space-y-8">
       <ScoreOverview analysis={analysis} lang={lang} />
+
+      <AuthorBreakdown stats={analysis.authorStats} lang={lang} />
 
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-1">
