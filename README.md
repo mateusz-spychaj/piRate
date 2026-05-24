@@ -93,5 +93,5 @@ The weights sum to 100 %. The 0.14 dimension is not scored — it is a qualitati
 
 ## 8. Live demo
 
-- **Production** → [https://pir-rate.vercel.app](https://pir-rate.vercel.app)
-- **Custom domain** → [http://pirate.mateuszspychaj.pl](http://pirate.mateuszspychaj.pl)
+- **Production** → [https://pirate.mateuszspychaj.pl](https://pirate.mateuszspychaj.pl)
+- **Vercel mirror** → [https://pir-rate.vercel.app](https://pir-rate.vercel.app)
