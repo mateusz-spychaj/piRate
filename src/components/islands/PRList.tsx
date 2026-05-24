@@ -53,7 +53,7 @@ export default function PRList({ prs, lang }: Props) {
     setDiffError((prev) => ({ ...prev, [pr.id]: false }));
 
     try {
-      const res = await fetch(pr.diffUrl);
+      const res = await fetch(`/api/diff?url=${encodeURIComponent(pr.diffUrl)}`);
       if (!res.ok) throw new Error();
       const text = await res.text();
       setDiffContent((prev) => ({ ...prev, [pr.id]: truncateDiff(text) }));
