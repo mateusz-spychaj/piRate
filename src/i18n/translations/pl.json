@@ -85,6 +85,11 @@
   "dashboard.average": "Średnia",
   "dashboard.scorePerPr": "Score per PR",
 
+  "authorBreakdown.title": "Wyniki per autor",
+  "authorBreakdown.author": "Autor",
+  "authorBreakdown.prs": "PRów",
+  "authorBreakdown.trend": "Trend",
+
   "filters.sort": "Sortuj",
   "filters.sort.title": "Tytuł",
   "filters.sort.author": "Autor",

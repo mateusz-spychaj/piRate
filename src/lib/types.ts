@@ -21,6 +21,16 @@ export interface PRData {
   score: PRScore;
 }
 
+export interface AuthorStats {
+  author: string;
+  prCount: number;
+  avgImpact: number;
+  avgAiLeverage: number;
+  avgQuality: number;
+  avgTotal: number;
+  trend: 'up' | 'down' | 'stable';
+}
+
 export interface RepoAnalysis {
   repoUrl: string;
   repoName: string;
@@ -30,6 +40,7 @@ export interface RepoAnalysis {
   avgQuality: number;
   pirateSummary: string;
   prs: PRData[];
+  authorStats: AuthorStats[];
   recommendations: string[];
   analyzedAt: string;
 }
