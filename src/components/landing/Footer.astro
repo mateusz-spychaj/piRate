@@ -1,0 +1,55 @@
+---
+const links = [
+  { label: 'Dokumentacja', href: '#' },
+  { label: 'API', href: '#' },
+  { label: 'GitHub', href: '#' },
+];
+
+const legal = [
+  { label: 'Polityka prywatności', href: '#' },
+  { label: 'Regulamin', href: '#' },
+];
+---
+
+<footer class="bg-text-primary text-white py-12">
+  <div class="container-custom">
+    <div class="grid md:grid-cols-3 gap-8 mb-8">
+      <div>
+        <h3 class="text-xl font-bold mb-3">piRate</h3>
+        <p class="text-white/60 text-sm">
+          Narzędzie do oceny jakości pull requestów z wykorzystaniem AI
+        </p>
+      </div>
+
+      <div>
+        <h4 class="font-semibold mb-3">Linki</h4>
+        <ul class="space-y-2">
+          {links.map((link) => (
+            <li>
+              <a href={link.href} class="text-white/60 hover:text-white text-sm transition-colors">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-semibold mb-3">Informacje prawne</h4>
+        <ul class="space-y-2">
+          {legal.map((link) => (
+            <li>
+              <a href={link.href} class="text-white/60 hover:text-white text-sm transition-colors">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="pt-8 border-t border-white/10 text-center text-sm text-white/40">
+      © 2026 piRate. Wszystkie prawa zastrzeżone.
+    </div>
+  </div>
+</footer>

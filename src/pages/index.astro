@@ -1,12 +1,20 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/landing/Hero.astro';
+import SocialProof from '../components/landing/SocialProof.astro';
+import HowItWorks from '../components/landing/HowItWorks.astro';
+import ScoringDimensions from '../components/landing/ScoringDimensions.astro';
+import DemoPreview from '../components/landing/DemoPreview.astro';
+import Footer from '../components/landing/Footer.astro';
 ---
 
 <Layout title="piRate - Oceń jakość PRów w swoim repozytorium">
   <main id="main-content">
-    <div class="container-custom py-20 text-center">
-      <h1 class="text-4xl font-bold mb-4">piRate</h1>
-      <p class="text-text-secondary text-lg">Coming soon...</p>
-    </div>
+    <Hero />
+    <SocialProof />
+    <HowItWorks />
+    <ScoringDimensions />
+    <DemoPreview />
+    <Footer />
   </main>
 </Layout>
