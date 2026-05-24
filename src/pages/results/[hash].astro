@@ -12,6 +12,7 @@ const lang = (Astro.locals as any).lang ?? 'pl';
 <Layout title={t('dashboard.title', lang)}>
   <main id="main-content" class="min-h-screen py-8">
     <div class="container-custom">
+      <h1 class="sr-only">{t('dashboard.title', lang)}</h1>
       <ResultsPage hash={hash!} lang={lang} initialAnalysis={cached} client:load />
     </div>
   </main>

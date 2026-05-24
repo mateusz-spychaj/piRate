@@ -9,11 +9,11 @@
   --color-surface-dark: #f1f5f9;
   --color-text-primary: #0f172a;
   --color-text-secondary: #64748b;
-  --color-text-muted: #94a3b8;
+  --color-text-muted: #6b7280;
   --color-border: #e2e8f0;
-  --color-accent: #00B894;
-  --color-accent-dark: #00A381;
-  --color-warning: #f59e0b;
+  --color-accent: #047857;
+  --color-accent-dark: #065f46;
+  --color-warning: #b45309;
   --color-danger: #ef4444;
   --color-pirate: #b45309;
 }

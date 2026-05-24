@@ -144,7 +144,7 @@ export default function ScoreOverview({ analysis, lang }: Props) {
   } = analysis;
 
   const getScoreColor = (score: number) => {
-    if (score >= 70) return '#00B894';
+    if (score >= 70) return '#047857';
     if (score >= 40) return '#f59e0b';
     return '#ef4444';
   };
@@ -182,7 +182,7 @@ export default function ScoreOverview({ analysis, lang }: Props) {
           {[
             { label: t('dimensions.impact', l), value: avgImpact, color: '#6C5CE7' },
             { label: t('dimensions.aiLeverage', l), value: avgAiLeverage, color: '#8B5CF6' },
-            { label: t('dimensions.quality', l), value: avgQuality, color: '#00B894' },
+            { label: t('dimensions.quality', l), value: avgQuality, color: '#047857' },
           ].map((dim, i) => (
             <AnimatedBar
               key={dim.label}
