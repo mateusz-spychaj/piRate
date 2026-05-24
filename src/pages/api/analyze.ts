@@ -24,7 +24,7 @@ export const POST: APIRoute = async ({ request }) => {
     const cached = getCached(hash);
     if (cached) {
       return new Response(
-        JSON.stringify({ hash }),
+        JSON.stringify({ hash, analysis: cached }),
         { status: 200, headers: { 'Content-Type': 'application/json' } }
       );
     }
@@ -44,7 +44,7 @@ export const POST: APIRoute = async ({ request }) => {
     setCache(hash, analysis);
 
     return new Response(
-      JSON.stringify({ hash }),
+      JSON.stringify({ hash, analysis }),
       { status: 201, headers: { 'Content-Type': 'application/json' } }
     );
   } catch (err) {

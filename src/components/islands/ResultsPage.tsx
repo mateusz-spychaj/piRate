@@ -7,11 +7,28 @@ import Filters from './Filters';
 
 interface Props {
   hash: string;
+  initialAnalysis?: RepoAnalysis | null;
 }
 
-export default function ResultsPage({ hash }: Props) {
-  const [analysis, setAnalysis] = useState<RepoAnalysis | null>(null);
-  const [loading, setLoading] = useState(true);
+function loadFromStorage(hash: string): RepoAnalysis | null {
+  try {
+    const raw = sessionStorage.getItem(`pirate-analysis-${hash}`);
+    if (!raw) return null;
+    return JSON.parse(raw) as RepoAnalysis;
+  } catch {
+    return null;
+  }
+}
+
+export default function ResultsPage({ hash, initialAnalysis }: Props) {
+  const [analysis, setAnalysis] = useState<RepoAnalysis | null>(() => {
+    if (initialAnalysis) {
+      sessionStorage.setItem(`pirate-analysis-${hash}`, JSON.stringify(initialAnalysis));
+      return initialAnalysis;
+    }
+    return loadFromStorage(hash);
+  });
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const [sortField, setSortField] = useState<SortField>('total');
@@ -19,6 +36,11 @@ export default function ResultsPage({ hash }: Props) {
   const [authorFilter, setAuthorFilter] = useState<string | null>(null);
 
   useEffect(() => {
+    if (analysis) {
+      setLoading(false);
+      return;
+    }
+
     const controller = new AbortController();
 
     async function fetchResults() {
@@ -32,10 +54,17 @@ export default function ResultsPage({ hash }: Props) {
         }
 
         const data = (await res.json()) as RepoAnalysis;
+        sessionStorage.setItem(`pirate-analysis-${hash}`, JSON.stringify(data));
         setAnalysis(data);
       } catch (err) {
         if (err instanceof DOMException && err.name === 'AbortError') return;
-        setError(err instanceof Error ? err.message : 'Wystąpił błąd podczas ładowania wyników');
+
+        const stored = loadFromStorage(hash);
+        if (stored) {
+          setAnalysis(stored);
+        } else {
+          setError(err instanceof Error ? err.message : 'Wystąpił błąd podczas ładowania wyników');
+        }
       } finally {
         setLoading(false);
       }

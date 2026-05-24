@@ -1,14 +1,16 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import ResultsPage from '../../components/islands/ResultsPage';
+import { getCached } from '../../lib/cache';
 
 const { hash } = Astro.params;
+const cached = hash ? getCached(hash) : null;
 ---
 
 <Layout title="piRate - Wyniki analizy">
   <main id="main-content" class="min-h-screen py-8">
     <div class="container-custom">
-      <ResultsPage hash={hash!} client:load />
+      <ResultsPage hash={hash!} initialAnalysis={cached} client:load />
     </div>
   </main>
 </Layout>

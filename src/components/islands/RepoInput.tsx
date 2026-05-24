@@ -45,6 +45,9 @@ export default function RepoInput() {
       }
 
       const data = await response.json();
+      if (data.analysis) {
+        sessionStorage.setItem(`pirate-analysis-${data.hash}`, JSON.stringify(data.analysis));
+      }
       window.location.href = `/results/${data.hash}`;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Coś poszło nie tak');
