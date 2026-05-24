@@ -46,7 +46,7 @@ export default function Filters({
         </select>
         <button
           onClick={() => onSortDirectionChange(sortDirection === 'desc' ? 'asc' : 'desc')}
-          className="p-2 text-text-muted hover:text-text-primary transition-colors rounded-lg hover:bg-surface"
+          className="p-2 text-text-muted hover:text-text-primary transition-colors rounded-lg hover:bg-surface cursor-pointer"
           aria-label={sortDirection === 'desc' ? 'Malejąco' : 'Rosnąco'}
         >
           <ArrowUpDown size={16} className={sortDirection === 'asc' ? 'rotate-180' : ''} />

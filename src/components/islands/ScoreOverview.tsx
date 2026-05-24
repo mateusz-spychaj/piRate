@@ -119,7 +119,7 @@ export default function ScoreOverview({ analysis }: Props) {
                 </span>
                 <span className="text-text-secondary">{dim.value}/100</span>
               </div>
-              <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                 <div
                   className="h-full rounded-full transition-all duration-1000"
                   style={{ width: `${dim.value}%`, backgroundColor: dim.color }}
@@ -131,8 +131,8 @@ export default function ScoreOverview({ analysis }: Props) {
       </div>
 
       <div className="mt-8 pt-8 border-t border-border">
-        <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
-          <p className="text-amber-800 text-sm leading-relaxed italic">
+        <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4 mb-6">
+          <p className="text-amber-800 dark:text-amber-200 text-sm leading-relaxed italic">
             &ldquo;{pirateSummary}&rdquo;
           </p>
         </div>

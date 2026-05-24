@@ -39,7 +39,7 @@ const dimensions = [
 
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
       {dimensions.map((dim) => (
-        <div class="card hover:shadow-md transition-shadow duration-300 group">
+        <div class="card hover:shadow-md transition-shadow duration-300 group cursor-pointer">
           <div class={`inline-flex items-center justify-center w-14 h-14 rounded-xl ${dim.bgColor} ${dim.color} mb-4 group-hover:scale-110 transition-transform duration-300 text-2xl`}>
             {dim.icon}
           </div>

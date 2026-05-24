@@ -6,9 +6,9 @@ interface Props {
 }
 
 function ScoreBadge({ value, label }: { value: number; label: string }) {
-  const color = value >= 70 ? 'bg-emerald-100 text-emerald-700' :
-                value >= 40 ? 'bg-amber-100 text-amber-700' :
-                'bg-red-100 text-red-700';
+  const color = value >= 70 ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300' :
+                value >= 40 ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300' :
+                'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300';
 
   return (
     <div className={`px-2 py-1 rounded text-xs font-semibold ${color}`} title={label}>
@@ -30,7 +30,7 @@ export default function PRList({ prs }: Props) {
   return (
     <div className="space-y-3">
       {prs.map((pr) => (
-        <article key={pr.id} className="card hover:shadow-md transition-shadow">
+        <article key={pr.id} className="card hover:shadow-md transition-shadow cursor-pointer">
           <div className="flex items-start justify-between gap-4">
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1">
