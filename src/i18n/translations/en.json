@@ -84,6 +84,10 @@
   "dashboard.recommendations.title": "AI Recommendations",
   "dashboard.export": "Export Results",
   "dashboard.share": "Share",
+
+  "export.json": "Export JSON",
+  "export.png": "Export PNG",
+  "export.exporting": "Exporting...",
   "dashboard.loading": "Loading results...",
   "dashboard.error.title": "Something went wrong",
   "dashboard.error.back": "Back to homepage",

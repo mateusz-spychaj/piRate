@@ -5,6 +5,7 @@ import RadarChart from './RadarChart';
 import PRList from './PRList';
 import Filters from './Filters';
 import AuthorBreakdown from './AuthorBreakdown';
+import ExportButton from './ExportButton';
 import { t, type Language } from '../../i18n';
 
 interface Props {
@@ -161,6 +162,11 @@ export default function ResultsPage({ hash, lang, initialAnalysis }: Props) {
 
   return (
     <div className="space-y-8">
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex-1" />
+        <ExportButton analysis={analysis} lang={lang} />
+      </div>
+
       <ScoreOverview analysis={analysis} lang={lang} />
 
       <AuthorBreakdown stats={analysis.authorStats} lang={lang} />
