@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import type { RepoAnalysis, PRData, SortField, SortDirection } from '../../lib/types';
+import type { RepoAnalysis, SortField, SortDirection } from '../../lib/types';
 import ScoreOverview from './ScoreOverview';
 import RadarChart from './RadarChart';
 import PRList from './PRList';
