@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import type { RepoAnalysis, PRData, SortField, SortDirection } from '../../lib/types';
+import type { RepoAnalysis, SortField, SortDirection } from '../../lib/types';
 import ScoreOverview from './ScoreOverview';
 import RadarChart from './RadarChart';
 import PRList from './PRList';
@@ -7,11 +7,37 @@ import Filters from './Filters';
 
 interface Props {
   hash: string;
+  initialAnalysis?: RepoAnalysis | null;
 }
 
-export default function ResultsPage({ hash }: Props) {
-  const [analysis, setAnalysis] = useState<RepoAnalysis | null>(null);
-  const [loading, setLoading] = useState(true);
+function getStorageItem(key: string): string | null {
+  try {
+    return typeof sessionStorage !== 'undefined' ? sessionStorage.getItem(key) : null;
+  } catch {
+    return null;
+  }
+}
+
+function setStorageItem(key: string, value: string): void {
+  try {
+    if (typeof sessionStorage !== 'undefined') {
+      sessionStorage.setItem(key, value);
+    }
+  } catch {
+    // storage unavailable
+  }
+}
+
+export default function ResultsPage({ hash, initialAnalysis }: Props) {
+  const [analysis, setAnalysis] = useState<RepoAnalysis | null>(() => {
+    if (initialAnalysis) {
+      setStorageItem(`pirate-analysis-${hash}`, JSON.stringify(initialAnalysis));
+      return initialAnalysis;
+    }
+    const raw = getStorageItem(`pirate-analysis-${hash}`);
+    return raw ? JSON.parse(raw) as RepoAnalysis : null;
+  });
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const [sortField, setSortField] = useState<SortField>('total');
@@ -19,6 +45,11 @@ export default function ResultsPage({ hash }: Props) {
   const [authorFilter, setAuthorFilter] = useState<string | null>(null);
 
   useEffect(() => {
+    if (analysis) {
+      setLoading(false);
+      return;
+    }
+
     const controller = new AbortController();
 
     async function fetchResults() {
@@ -32,10 +63,17 @@ export default function ResultsPage({ hash }: Props) {
         }
 
         const data = (await res.json()) as RepoAnalysis;
+        setStorageItem(`pirate-analysis-${hash}`, JSON.stringify(data));
         setAnalysis(data);
       } catch (err) {
         if (err instanceof DOMException && err.name === 'AbortError') return;
-        setError(err instanceof Error ? err.message : 'Wystąpił błąd podczas ładowania wyników');
+
+        const stored = getStorageItem(`pirate-analysis-${hash}`);
+        if (stored) {
+          setAnalysis(JSON.parse(stored) as RepoAnalysis);
+        } else {
+          setError(err instanceof Error ? err.message : 'Wystąpił błąd podczas ładowania wyników');
+        }
       } finally {
         setLoading(false);
       }

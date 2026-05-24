@@ -1,8 +1,8 @@
 {
-  "meta.title": "piRate - Rate PR Quality in Your Repository",
+  "meta.title": "πRate - Rate PR Quality in Your Repository",
   "meta.description": "AI analyzes pull requests and rates them by impact, quality, and AI leverage",
 
-  "nav.brand": "piRate",
+  "nav.brand": "πRate",
   "nav.analyze": "Analyze",
 
   "hero.title": "Rate PR Quality in Your Repository",
@@ -43,7 +43,7 @@
   "footer.legal": "Legal",
   "footer.privacy": "Privacy Policy",
   "footer.terms": "Terms of Service",
-  "footer.copyright": "© 2026 piRate. All rights reserved.",
+  "footer.copyright": "© 2026 πRate. All rights reserved.",
 
   "analyze.title": "Analyzing repository...",
   "analyze.steps.fetching": "Fetching pull requests...",
@@ -76,6 +76,7 @@
   "errors.privateRepo": "This repository is private. Provide a public repo URL",
   "errors.noPRs": "No merged pull requests found in this repository",
   "errors.rateLimit": "GitHub API rate limit reached. Please try again in a moment",
+  "errors.githubApi": "GitHub API is not responding. Check the URL and try again",
   "errors.analysisFailed": "Analysis failed. Please try again",
   "errors.general": "Something went wrong. Please try again later",
   "errors.retry": "Try again",
