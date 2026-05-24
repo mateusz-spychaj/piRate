@@ -31,10 +31,31 @@ export default function ExportButton({ analysis, lang, scoreRef }: Props) {
       const html2canvas = (await import('html2canvas')).default;
       const el = scoreRef.current;
       if (!el) return;
+
       const canvas = await html2canvas(el, {
         backgroundColor: '#ffffff',
         scale: 2,
         useCORS: true,
+        onclone: (clonedDoc) => {
+          const origWalker = document.createTreeWalker(el, NodeFilter.SHOW_ELEMENT);
+          const clonedWalker = clonedDoc.createTreeWalker(clonedDoc.body, NodeFilter.SHOW_ELEMENT);
+          let origNode: Node | null = origWalker.currentNode;
+          let clonedNode: Node | null = clonedWalker.currentNode;
+          const props = ['color', 'background-color', 'border-color', 'fill', 'stroke'];
+          while (origNode && clonedNode) {
+            if (origNode instanceof HTMLElement && clonedNode instanceof HTMLElement) {
+              const computed = window.getComputedStyle(origNode as Element);
+              for (const prop of props) {
+                const val = computed.getPropertyValue(prop);
+                if (val && val.includes('oklch')) {
+                  (clonedNode.style as CSSStyleDeclaration).setProperty(prop, val);
+                }
+              }
+            }
+            origNode = origWalker.nextNode();
+            clonedNode = clonedWalker.nextNode();
+          }
+        },
       });
       const url = canvas.toDataURL('image/png');
       const a = document.createElement('a');
