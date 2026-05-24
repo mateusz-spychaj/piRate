@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from "react";
 import {
   RadarChart as RechartsRadar,
   PolarGrid,
@@ -6,9 +6,9 @@ import {
   PolarRadiusAxis,
   Radar,
   Tooltip,
-} from 'recharts';
-import type { RepoAnalysis } from '../../lib/types';
-import { t, type Language } from '../../i18n';
+} from "recharts";
+import type { RepoAnalysis } from "../../lib/types";
+import { t, type Language } from "../../i18n";
 
 interface Props {
   analysis: RepoAnalysis;
@@ -34,32 +34,50 @@ export default function RadarChart({ analysis, lang }: Props) {
   }, []);
 
   const data = [
-    { dimension: t('dimensions.impact', l), score: avgImpact },
-    { dimension: 'AI Leverage', score: avgAiLeverage },
-    { dimension: t('dimensions.quality', l), score: avgQuality },
+    { dimension: t("dimensions.impact", l), score: avgImpact },
+    { dimension: "AI Leverage", score: avgAiLeverage },
+    { dimension: t("dimensions.quality", l), score: avgQuality },
   ];
 
-  const prData = prs.length <= 6
-    ? prs.map((pr) => ({
-        dimension: `#${pr.number}`,
-        score: pr.score.total,
-      }))
-    : [];
+  const prData =
+    prs.length <= 6
+      ? prs.map((pr) => ({
+          dimension: `#${pr.number}`,
+          score: pr.score.total,
+        }))
+      : [];
 
   return (
-    <div className="card">
+    <>
       <h3 className="font-semibold text-text-primary mb-4">
-        {t('dashboard.visualization', l)}
+        {t("dashboard.visualization", l)}
       </h3>
 
       <div ref={containerRef} className="w-full" style={{ minHeight: 300 }}>
         {width > 0 && (
-          <RechartsRadar width={width} height={300} data={data} cx="50%" cy="50%" outerRadius="75%">
+          <RechartsRadar
+            width={width}
+            height={300}
+            data={data}
+            cx="50%"
+            cy="50%"
+            outerRadius="75%"
+          >
             <PolarGrid stroke="var(--color-border, #e2e8f0)" />
-            <PolarAngleAxis dataKey="dimension" tick={{ fontSize: 12, fill: 'var(--color-text-secondary, #64748b)' }} />
-            <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fontSize: 10, fill: 'var(--color-text-muted, #94a3b8)' }} />
+            <PolarAngleAxis
+              dataKey="dimension"
+              tick={{
+                fontSize: 12,
+                fill: "var(--color-text-secondary, #64748b)",
+              }}
+            />
+            <PolarRadiusAxis
+              angle={30}
+              domain={[0, 100]}
+              tick={{ fontSize: 10, fill: "var(--color-text-muted, #94a3b8)" }}
+            />
             <Radar
-              name={t('dashboard.average', l)}
+              name={t("dashboard.average", l)}
               dataKey="score"
               stroke="#1a73e8"
               fill="#1a73e8"
@@ -68,11 +86,11 @@ export default function RadarChart({ analysis, lang }: Props) {
             />
             <Tooltip
               contentStyle={{
-                background: 'var(--color-bg-tooltip, #fff)',
-                border: '1px solid var(--color-border, #e2e8f0)',
-                borderRadius: '8px',
-                fontSize: '14px',
-                color: 'var(--color-text-primary, #0f172a)',
+                background: "var(--color-bg-tooltip, #fff)",
+                border: "1px solid var(--color-border, #e2e8f0)",
+                borderRadius: "8px",
+                fontSize: "14px",
+                color: "var(--color-text-primary, #0f172a)",
               }}
             />
           </RechartsRadar>
@@ -81,10 +99,15 @@ export default function RadarChart({ analysis, lang }: Props) {
 
       {prData.length > 0 && (
         <div className="mt-6">
-          <p className="text-xs text-text-muted mb-2">{t('dashboard.scorePerPr', l)}</p>
+          <p className="text-xs text-text-muted mb-2">
+            {t("dashboard.scorePerPr", l)}
+          </p>
           <div className="space-y-1">
             {prData.map((pr) => (
-              <div key={pr.dimension} className="flex items-center gap-2 text-xs">
+              <div
+                key={pr.dimension}
+                className="flex items-center gap-2 text-xs"
+              >
                 <span className="text-text-muted w-10">{pr.dimension}</span>
                 <div className="flex-1 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                   <div
@@ -92,12 +115,14 @@ export default function RadarChart({ analysis, lang }: Props) {
                     style={{ width: `${pr.score}%` }}
                   />
                 </div>
-                <span className="text-text-secondary w-6 text-right">{pr.score}</span>
+                <span className="text-text-secondary w-6 text-right">
+                  {pr.score}
+                </span>
               </div>
             ))}
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
