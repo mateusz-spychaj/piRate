@@ -1,7 +1,6 @@
 ---
 import '../styles/global.css';
-import LanguageSwitcher from '../components/islands/LanguageSwitcher';
-import ThemeSwitcher from '../components/islands/ThemeSwitcher';
+import HeaderControls from '../components/islands/HeaderControls';
 
 interface Props {
   title: string;
@@ -44,8 +43,7 @@ const lang = Astro.props.lang ?? (Astro.locals as any).lang ?? 'pl';
           πRate
         </a>
         <div class="flex items-center gap-1">
-          <ThemeSwitcher client:load />
-          <LanguageSwitcher client:load />
+          <HeaderControls client:load />
         </div>
       </div>
     </header>
