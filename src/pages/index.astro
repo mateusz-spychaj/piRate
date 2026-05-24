@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/landing/Hero.astro';
 import SocialProof from '../components/landing/SocialProof.astro';
+import StatsSection from '../components/landing/StatsSection.astro';
 import HowItWorks from '../components/landing/HowItWorks.astro';
 import ScoringDimensions from '../components/landing/ScoringDimensions.astro';
 import DemoPreview from '../components/landing/DemoPreview.astro';
@@ -15,6 +16,7 @@ const lang = (Astro.locals as any).lang ?? 'pl';
   <main id="main-content">
     <Hero lang={lang} />
     <SocialProof lang={lang} />
+    <StatsSection lang={lang} />
     <HowItWorks lang={lang} />
     <ScoringDimensions lang={lang} />
     <DemoPreview lang={lang} />
