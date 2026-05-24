@@ -1,10 +1,10 @@
+import { useRef, useState, useEffect } from 'react';
 import {
   RadarChart as RechartsRadar,
   PolarGrid,
   PolarAngleAxis,
   PolarRadiusAxis,
   Radar,
-  ResponsiveContainer,
   Tooltip,
 } from 'recharts';
 import type { RepoAnalysis } from '../../lib/types';
@@ -14,7 +14,21 @@ interface Props {
 }
 
 export default function RadarChart({ analysis }: Props) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(0);
   const { avgImpact, avgAiLeverage, avgQuality, prs } = analysis;
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const measure = () => setWidth(el.clientWidth);
+    measure();
+
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const data = [
     { dimension: 'Wpływ', score: avgImpact },
@@ -32,29 +46,32 @@ export default function RadarChart({ analysis }: Props) {
   return (
     <div className="card">
       <h3 className="font-semibold text-text-primary mb-4">Wizualizacja</h3>
-      <ResponsiveContainer width="100%" height={300}>
-        <RechartsRadar data={data} cx="50%" cy="50%" outerRadius="75%">
-          <PolarGrid stroke="#e2e8f0" />
-          <PolarAngleAxis dataKey="dimension" tick={{ fontSize: 12, fill: '#64748b' }} />
-          <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fontSize: 10, fill: '#94a3b8' }} />
-          <Radar
-            name="Średnia"
-            dataKey="score"
-            stroke="#1a73e8"
-            fill="#1a73e8"
-            fillOpacity={0.15}
-            strokeWidth={2}
-          />
-          <Tooltip
-            contentStyle={{
-              background: '#fff',
-              border: '1px solid #e2e8f0',
-              borderRadius: '8px',
-              fontSize: '14px',
-            }}
-          />
-        </RechartsRadar>
-      </ResponsiveContainer>
+
+      <div ref={containerRef} className="w-full" style={{ minHeight: 300 }}>
+        {width > 0 && (
+          <RechartsRadar width={width} height={300} data={data} cx="50%" cy="50%" outerRadius="75%">
+            <PolarGrid stroke="#e2e8f0" />
+            <PolarAngleAxis dataKey="dimension" tick={{ fontSize: 12, fill: '#64748b' }} />
+            <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fontSize: 10, fill: '#94a3b8' }} />
+            <Radar
+              name="Średnia"
+              dataKey="score"
+              stroke="#1a73e8"
+              fill="#1a73e8"
+              fillOpacity={0.15}
+              strokeWidth={2}
+            />
+            <Tooltip
+              contentStyle={{
+                background: '#fff',
+                border: '1px solid #e2e8f0',
+                borderRadius: '8px',
+                fontSize: '14px',
+              }}
+            />
+          </RechartsRadar>
+        )}
+      </div>
 
       {prData.length > 0 && (
         <div className="mt-6">
