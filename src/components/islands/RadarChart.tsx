@@ -8,12 +8,15 @@ import {
   Tooltip,
 } from 'recharts';
 import type { RepoAnalysis } from '../../lib/types';
+import { t, type Language } from '../../i18n';
 
 interface Props {
   analysis: RepoAnalysis;
+  lang: string;
 }
 
-export default function RadarChart({ analysis }: Props) {
+export default function RadarChart({ analysis, lang }: Props) {
+  const l = lang as Language;
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
   const { avgImpact, avgAiLeverage, avgQuality, prs } = analysis;
@@ -31,9 +34,9 @@ export default function RadarChart({ analysis }: Props) {
   }, []);
 
   const data = [
-    { dimension: 'Wpływ', score: avgImpact },
+    { dimension: t('dimensions.impact', l), score: avgImpact },
     { dimension: 'AI Leverage', score: avgAiLeverage },
-    { dimension: 'Jakość', score: avgQuality },
+    { dimension: t('dimensions.quality', l), score: avgQuality },
   ];
 
   const prData = prs.length <= 6
@@ -45,7 +48,9 @@ export default function RadarChart({ analysis }: Props) {
 
   return (
     <div className="card">
-      <h3 className="font-semibold text-text-primary mb-4">Wizualizacja</h3>
+      <h3 className="font-semibold text-text-primary mb-4">
+        {t('dashboard.visualization', l)}
+      </h3>
 
       <div ref={containerRef} className="w-full" style={{ minHeight: 300 }}>
         {width > 0 && (
@@ -54,7 +59,7 @@ export default function RadarChart({ analysis }: Props) {
             <PolarAngleAxis dataKey="dimension" tick={{ fontSize: 12, fill: 'var(--color-text-secondary, #64748b)' }} />
             <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fontSize: 10, fill: 'var(--color-text-muted, #94a3b8)' }} />
             <Radar
-              name="Średnia"
+              name={t('dashboard.average', l)}
               dataKey="score"
               stroke="#1a73e8"
               fill="#1a73e8"
@@ -76,7 +81,7 @@ export default function RadarChart({ analysis }: Props) {
 
       {prData.length > 0 && (
         <div className="mt-6">
-          <p className="text-xs text-text-muted mb-2">Score per PR</p>
+          <p className="text-xs text-text-muted mb-2">{t('dashboard.scorePerPr', l)}</p>
           <div className="space-y-1">
             {prData.map((pr) => (
               <div key={pr.dimension} className="flex items-center gap-2 text-xs">

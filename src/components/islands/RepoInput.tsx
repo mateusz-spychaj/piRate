@@ -1,11 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Settings, X, Loader2 } from 'lucide-react';
 import { DEFAULT_PR_COUNT, MIN_PR_COUNT, MAX_PR_COUNT } from '../../lib/constants';
-import { getLanguage } from '../../i18n';
+import { getLanguage, t, type Language } from '../../i18n';
 
 type ProgressStep = 'idle' | 'fetching' | 'analyzing' | 'scoring' | 'complete' | 'error';
 
-export default function RepoInput() {
+interface Props {
+  lang?: string;
+}
+
+export default function RepoInput({ lang: propLang }: Props) {
+  const l = (propLang || getLanguage()) as Language;
   const [url, setUrl] = useState('');
   const [prCount, setPrCount] = useState(DEFAULT_PR_COUNT);
   const [showSettings, setShowSettings] = useState(false);
@@ -29,7 +34,7 @@ export default function RepoInput() {
 
     const githubPattern = /^https:\/\/github\.com\/[a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+\/?$/;
     if (!githubPattern.test(url)) {
-      setError('Nieprawidłowy URL repozytorium GitHub');
+      setError(t('repoInput.errors.invalidUrl', l));
       return;
     }
 
@@ -85,17 +90,17 @@ export default function RepoInput() {
         }
 
         if (streamError) throw new Error(streamError);
-        throw new Error('Nieoczekiwany koniec strumienia');
+        throw new Error(t('repoInput.errors.streamEnd', l));
       } else {
         const data = await response.json();
-        if (!response.ok) throw new Error(data.error || 'Analiza nie powiodła się');
+        if (!response.ok) throw new Error(data.error || t('repoInput.errors.analysisFailed', l));
         if (data.analysis) {
           sessionStorage.setItem(`pirate-analysis-${data.hash}`, JSON.stringify(data.analysis));
         }
         window.location.href = `/results/${data.hash}`;
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Coś poszło nie tak');
+      setError(err instanceof Error ? err.message : t('repoInput.errors.generic', l));
       setProgress({ step: 'idle' });
     } finally {
       setIsLoading(false);
@@ -120,9 +125,9 @@ export default function RepoInput() {
             type="url"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
-            placeholder="https://github.com/właściciel/repozytorium"
+            placeholder={t('repoInput.placeholder', l)}
             className="input-field pr-12"
-            aria-label="URL repozytorium GitHub"
+            aria-label={t('repoInput.aria.input', l)}
             required
             disabled={isLoading}
           />
@@ -130,7 +135,7 @@ export default function RepoInput() {
             type="button"
             onClick={() => setShowSettings(!showSettings)}
             className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-text-muted hover:text-text-primary transition-colors rounded-lg hover:bg-surface cursor-pointer disabled:cursor-not-allowed"
-            aria-label="Ustawienia analizy"
+            aria-label={t('repoInput.aria.settings', l)}
             aria-expanded={showSettings}
             disabled={isLoading}
           >
@@ -146,19 +151,19 @@ export default function RepoInput() {
           {isLoading ? (
             <span className="flex items-center gap-2">
               <Loader2 size={18} className="animate-spin" />
-              {progress.step === 'fetching' ? 'Pobieranie PRów...' :
-               progress.step === 'analyzing' ? `Analizowanie ${progress.current}/${progress.total}...` :
-               'Przetwarzanie...'}
+              {progress.step === 'fetching' ? t('repoInput.status.fetching', l) :
+               progress.step === 'analyzing' ? t('repoInput.status.analyzing', l).replace('{current}', String(progress.current)).replace('{total}', String(progress.total)) :
+               t('repoInput.status.processing', l)}
             </span>
-          ) : 'Analizuj repo'}
+          ) : t('repoInput.submit', l)}
         </button>
       </form>
 
       {isLoading && progress.step === 'analyzing' && progress.total && (
         <div className="mt-4">
           <div className="flex justify-between text-xs text-text-secondary mb-1.5">
-            <span>Postęp analizy</span>
-            <span>{progress.current}/{progress.total} PRów</span>
+            <span>{t('repoInput.progress.title', l)}</span>
+            <span>{t('repoInput.progress.count', l).replace('{current}', String(progress.current)).replace('{total}', String(progress.total))}</span>
           </div>
           <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
             <div
@@ -174,7 +179,7 @@ export default function RepoInput() {
       {showSettings && !isLoading && (
         <div className="absolute top-full left-0 right-0 mt-2 p-4 bg-white dark:bg-gray-800 rounded-xl border border-border shadow-lg z-10 animate-fade-in">
           <label className="block text-sm font-medium text-text-primary mb-2">
-            Ile PRów analizować?
+            {t('repoInput.settings.label', l)}
           </label>
           <div className="flex items-center gap-3">
             <input
@@ -184,7 +189,7 @@ export default function RepoInput() {
               value={prCount}
               onChange={(e) => handlePrCountChange(parseInt(e.target.value, 10))}
               className="flex-1 accent-primary"
-              aria-label="Liczba PRów do analizy"
+              aria-label={t('repoInput.settings.aria', l)}
             />
             <span className="text-sm font-semibold text-primary min-w-[2rem] text-center">
               {prCount}

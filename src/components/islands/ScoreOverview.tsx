@@ -1,7 +1,9 @@
-import type { RepoAnalysis } from "../../lib/types";
+import type { RepoAnalysis } from '../../lib/types';
+import { t, type Language } from '../../i18n';
 
 interface Props {
   analysis: RepoAnalysis;
+  lang: string;
 }
 
 function ScoreRing({
@@ -62,7 +64,16 @@ function ScoreRing({
   );
 }
 
-export default function ScoreOverview({ analysis }: Props) {
+const SCORE_LABELS: Record<string, [string, string, string, string]> = {
+  pl: ['Do poprawy', 'Średnio', 'Dobrze', 'Świetnie'],
+  en: ['Needs improvement', 'Average', 'Good', 'Excellent'],
+};
+
+const THRESHOLDS = [40, 60, 80];
+
+export default function ScoreOverview({ analysis, lang }: Props) {
+  const l = lang as Language;
+  const labels = SCORE_LABELS[l] ?? SCORE_LABELS.en;
   const {
     totalScore,
     avgImpact,
@@ -73,16 +84,16 @@ export default function ScoreOverview({ analysis }: Props) {
   } = analysis;
 
   const getScoreColor = (score: number) => {
-    if (score >= 70) return "#10b981";
-    if (score >= 40) return "#f59e0b";
-    return "#ef4444";
+    if (score >= 70) return '#10b981';
+    if (score >= 40) return '#f59e0b';
+    return '#ef4444';
   };
 
   const getScoreLabel = (score: number) => {
-    if (score >= 80) return "Świetnie";
-    if (score >= 60) return "Dobrze";
-    if (score >= 40) return "Średnio";
-    return "Do poprawy";
+    if (score >= THRESHOLDS[2]) return labels[3];
+    if (score >= THRESHOLDS[1]) return labels[2];
+    if (score >= THRESHOLDS[0]) return labels[1];
+    return labels[0];
   };
 
   return (
@@ -92,7 +103,7 @@ export default function ScoreOverview({ analysis }: Props) {
           <div className="relative flex items-center justify-center mb-4">
             <ScoreRing
               value={totalScore}
-              label="Wynik całkowity"
+              label={t('dashboard.totalScore', l)}
               color={getScoreColor(totalScore)}
             />
           </div>
@@ -105,12 +116,12 @@ export default function ScoreOverview({ analysis }: Props) {
         </div>
 
         <div className="space-y-4">
-          <h3 className="font-semibold text-text-primary">Wymiary</h3>
+          <h3 className="font-semibold text-text-primary">{t('dashboard.dimensions', l)}</h3>
 
           {[
-            { label: "Wpływ", value: avgImpact, color: "#1a73e8" },
-            { label: "AI Leverage", value: avgAiLeverage, color: "#8b5cf6" },
-            { label: "Jakość", value: avgQuality, color: "#10b981" },
+            { label: t('dimensions.impact', l), value: avgImpact, color: '#1a73e8' },
+            { label: t('dimensions.aiLeverage', l), value: avgAiLeverage, color: '#8b5cf6' },
+            { label: t('dimensions.quality', l), value: avgQuality, color: '#10b981' },
           ].map((dim) => (
             <div key={dim.label}>
               <div className="flex justify-between text-sm mb-1">
@@ -140,7 +151,7 @@ export default function ScoreOverview({ analysis }: Props) {
         {recommendations.length > 0 && (
           <div>
             <h3 className="font-semibold text-text-primary mb-3">
-              Rekomendacje
+              {t('dashboard.recommendations', l)}
             </h3>
             <ul className="space-y-2">
               {recommendations.map((rec, i) => (

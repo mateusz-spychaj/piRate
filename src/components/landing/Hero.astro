@@ -1,21 +1,29 @@
 ---
 import RepoInput from '../islands/RepoInput';
+import { t } from '../../i18n';
+import type { Language } from '../../i18n';
+
+interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
+const l = lang as Language;
 ---
 
 <section class="relative overflow-hidden bg-gradient-to-b from-surface to-white dark:to-gray-900 py-20 md:py-32">
   <div class="container-custom">
     <div class="text-center max-w-3xl mx-auto animate-fade-in">
       <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-text-primary tracking-tight leading-tight">
-        Oceń jakość PRów<br />
-        <span class="text-primary">w swoim repozytorium</span>
+        {t('hero.title', l)}
       </h1>
 
       <p class="mt-6 text-lg md:text-xl text-text-secondary max-w-2xl mx-auto">
-        AI analizuje pull requesty i ocenia je pod względem wpływu, jakości kodu oraz wykorzystania sztucznej inteligencji
+        {t('hero.subtitle', l)}
       </p>
 
       <div class="mt-10 max-w-xl mx-auto">
-        <RepoInput client:load />
+        <RepoInput client:load lang={lang} />
       </div>
     </div>
   </div>

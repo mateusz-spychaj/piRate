@@ -1,49 +1,44 @@
 import { useState, useEffect } from 'react';
 import { Globe } from 'lucide-react';
-import { getLanguage, setLanguage, getAvailableLanguages, type Language } from '../../i18n';
+import { getLanguage, setLanguage, type Language } from '../../i18n';
 
 export default function LanguageSwitcher() {
-  const [currentLang, setCurrentLang] = useState<Language>('en');
-  const [isOpen, setIsOpen] = useState(false);
+  const [currentLang, setCurrentLang] = useState<Language>('pl');
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     setCurrentLang(getLanguage());
   }, []);
 
-  const languages = getAvailableLanguages();
-
-  const handleSelect = (lang: Language) => {
-    setLanguage(lang);
-    setCurrentLang(lang);
-    setIsOpen(false);
-    window.location.reload();
-  };
-
   return (
     <div className="relative">
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setOpen(!open)}
         className="flex items-center gap-2 px-3 py-2 text-sm text-text-secondary hover:text-text-primary transition-colors rounded-lg hover:bg-surface cursor-pointer"
         aria-label="Change language"
-        aria-expanded={isOpen}
+        aria-expanded={open}
       >
         <Globe size={16} />
-        <span className="uppercase font-medium">{currentLang}</span>
+        <span className="uppercase font-semibold">{currentLang}</span>
       </button>
 
-      {isOpen && (
-        <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 rounded-xl border border-border shadow-lg z-50 animate-fade-in" role="listbox">
-          {languages.map((lang) => (
-              <button
-              key={lang.code}
-              onClick={() => handleSelect(lang.code)}
-              className={`w-full text-left px-4 py-2.5 text-sm hover:bg-surface transition-colors first:rounded-t-xl last:rounded-b-xl cursor-pointer ${
-                currentLang === lang.code ? 'text-primary font-semibold' : 'text-text-primary'
+      {open && (
+        <div className="absolute right-0 mt-2 w-36 bg-white dark:bg-gray-800 rounded-xl border border-border shadow-lg z-50 overflow-hidden">
+          {[
+            { code: 'pl' as const, label: 'Polski' },
+            { code: 'en' as const, label: 'English' },
+          ].map((l) => (
+            <button
+              key={l.code}
+              onClick={() => {
+                setLanguage(l.code);
+                window.location.reload();
+              }}
+              className={`w-full text-left px-4 py-2.5 text-sm hover:bg-surface transition-colors cursor-pointer ${
+                currentLang === l.code ? 'text-primary font-semibold' : 'text-text-primary'
               }`}
-              role="option"
-              aria-selected={currentLang === lang.code}
             >
-              {lang.label}
+              {l.label}
             </button>
           ))}
         </div>

@@ -1,14 +1,13 @@
 ---
-const links = [
-  { label: 'Dokumentacja', href: '#' },
-  { label: 'API', href: '#' },
-  { label: 'GitHub', href: '#' },
-];
+import { t } from '../../i18n';
+import type { Language } from '../../i18n';
 
-const legal = [
-  { label: 'Polityka prywatności', href: '#' },
-  { label: 'Regulamin', href: '#' },
-];
+interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
+const l = lang as Language;
 ---
 
 <footer class="bg-text-primary dark:bg-gray-950 text-white py-12">
@@ -17,17 +16,21 @@ const legal = [
       <div>
         <h3 class="text-xl font-bold mb-3">πRate</h3>
         <p class="text-white/60 text-sm">
-          Narzędzie do oceny jakości pull requestów z wykorzystaniem AI
+          {t('footer.description', l)}
         </p>
       </div>
 
       <div>
-        <h4 class="font-semibold mb-3">Linki</h4>
+        <h4 class="font-semibold mb-3">{t('footer.links', l)}</h4>
         <ul class="space-y-2">
-          {links.map((link) => (
+          {[
+            { key: 'footer.documentation', href: '#' },
+            { key: 'footer.api', href: '#' },
+            { key: 'footer.github', href: 'https://github.com/mateusz-spychaj/piRate' },
+          ].map((link) => (
             <li>
               <a href={link.href} class="text-white/60 hover:text-white text-sm transition-colors">
-                {link.label}
+                {t(link.key, l)}
               </a>
             </li>
           ))}
@@ -35,12 +38,15 @@ const legal = [
       </div>
 
       <div>
-        <h4 class="font-semibold mb-3">Informacje prawne</h4>
+        <h4 class="font-semibold mb-3">{t('footer.legal', l)}</h4>
         <ul class="space-y-2">
-          {legal.map((link) => (
+          {[
+            { key: 'footer.privacy', href: '#' },
+            { key: 'footer.terms', href: '#' },
+          ].map((link) => (
             <li>
               <a href={link.href} class="text-white/60 hover:text-white text-sm transition-colors">
-                {link.label}
+                {t(link.key, l)}
               </a>
             </li>
           ))}
@@ -49,7 +55,7 @@ const legal = [
     </div>
 
     <div class="pt-8 border-t border-white/10 text-center text-sm text-white/40">
-      © 2026 πRate. Wszystkie prawa zastrzeżone.
+      {t('footer.copyright', l)}
     </div>
   </div>
 </footer>
