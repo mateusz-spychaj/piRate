@@ -41,16 +41,14 @@ export default function ExportButton({ analysis, lang, scoreRef }: Props) {
       a.href = url;
       a.download = `${analysis.repoName.replace('/', '-')}-badge.png`;
       a.click();
-    } catch {
-      // silently fail
+    } catch (err) {
+      console.error('PNG export failed:', err);
     }
     setTimeout(() => setExporting('idle'), 1000);
   }, [analysis]);
 
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <div ref={scoreRef} className="hidden" />
-
       <button
         onClick={exportJSON}
         disabled={exporting !== 'idle'}
