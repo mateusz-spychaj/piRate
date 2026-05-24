@@ -32,11 +32,25 @@ export default function ExportButton({ analysis, lang, scoreRef }: Props) {
       const el = scoreRef.current;
       if (!el) return;
 
+      const card = el.querySelector('.card') as HTMLElement | null;
+      const prev = card ? { boxShadow: card.style.boxShadow, borderColor: card.style.borderColor, borderWidth: card.style.borderWidth } : null;
+      if (card) {
+        card.style.boxShadow = 'none';
+        card.style.borderColor = '#d1d5db';
+        card.style.borderWidth = '1px';
+      }
+
       const dataUrl = await toPng(el, {
         cacheBust: true,
         filter: (node: Node) =>
           !(node instanceof Element && node.hasAttribute('data-export-hide')),
       });
+
+      if (card && prev) {
+        card.style.boxShadow = prev.boxShadow;
+        card.style.borderColor = prev.borderColor;
+        card.style.borderWidth = prev.borderWidth;
+      }
 
       const a = document.createElement('a');
       a.href = dataUrl;
