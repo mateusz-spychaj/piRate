@@ -1,0 +1,58 @@
+---
+const dimensions = [
+  {
+    icon: '📊',
+    title: 'Wpływ',
+    description: 'Czy PR wnosi realną wartość? Istotne zmiany funkcjonalności, architektury, performance\'u — vs. banalne poprawki',
+    color: 'text-accent',
+    bgColor: 'bg-accent/10',
+  },
+  {
+    icon: '🤖',
+    title: 'Wykorzystanie AI',
+    description: 'Czy widać, że AI pisało istotną część kodu? Im wyższy wynik, tym lepiej — szukamy ludzi, którzy generują kod z AI',
+    color: 'text-primary',
+    bgColor: 'bg-primary/10',
+  },
+  {
+    icon: '✨',
+    title: 'Jakość',
+    description: 'Inżynieryjna jakość zmian: czy PR jest skoncentrowany, czy kod jest czysty, czy są testy',
+    color: 'text-warning',
+    bgColor: 'bg-warning/10',
+  },
+  {
+    icon: '🏴‍☠️',
+    title: '0.14',
+    description: 'Podsumowanie w języku pirackim — bo każdy kod zasługuje na odrobinę humoru!',
+    color: 'text-pirate',
+    bgColor: 'bg-pirate/10',
+  },
+];
+---
+
+<section class="section bg-surface">
+  <div class="container-custom">
+    <h2 class="text-3xl md:text-4xl font-bold text-center text-text-primary mb-16">
+      Co oceniamy?
+    </h2>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {dimensions.map((dim) => (
+        <div class="card hover:shadow-md transition-shadow duration-300 group">
+          <div class={`inline-flex items-center justify-center w-14 h-14 rounded-xl ${dim.bgColor} ${dim.color} mb-4 group-hover:scale-110 transition-transform duration-300 text-2xl`}>
+            {dim.icon}
+          </div>
+
+          <h3 class="text-lg font-semibold text-text-primary mb-2">
+            {dim.title}
+          </h3>
+
+          <p class="text-sm text-text-secondary">
+            {dim.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

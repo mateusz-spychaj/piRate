@@ -1,0 +1,52 @@
+---
+const steps = [
+  {
+    step: 1,
+    icon: "01",
+    title: 'Wpisz URL repozytorium',
+    description: 'Podaj link do publicznego repozytorium GitHub, które chcesz ocenić',
+  },
+  {
+    step: 2,
+    icon: "02",
+    title: 'AI analizuje PRy',
+    description: 'Nasze AI pobiera merged pull requesty i analizuje je pod trzema wymiarami',
+  },
+  {
+    step: 3,
+    icon: "03",
+    title: 'Zobacz wyniki',
+    description: 'Otrzymasz szczegółową ocenę każdego PRa oraz zagregowany wynik dla całego repo',
+  },
+];
+---
+
+<section class="section bg-white">
+  <div class="container-custom">
+    <h2 class="text-3xl md:text-4xl font-bold text-center text-text-primary mb-16">
+      Jak to działa?
+    </h2>
+
+    <div class="grid md:grid-cols-3 gap-8 md:gap-12">
+      {steps.map((step) => (
+        <div class="relative text-center">
+          <div class="inline-flex items-center justify-center w-24 h-24 rounded-2xl bg-primary/10 text-primary mb-6 text-2xl font-bold">
+            {step.icon}
+          </div>
+
+          <div class="absolute -top-2 right-0 md:left-1/2 md:-translate-x-1/2 w-8 h-8 rounded-full bg-primary text-white text-sm font-bold flex items-center justify-center">
+            {step.step}
+          </div>
+
+          <h3 class="text-xl font-semibold text-text-primary mb-3">
+            {step.title}
+          </h3>
+
+          <p class="text-text-secondary">
+            {step.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
