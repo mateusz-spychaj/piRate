@@ -12,6 +12,7 @@ function mockAnalysis(overrides: Partial<RepoAnalysis> = {}): RepoAnalysis {
     avgQuality: 75,
     pirateSummary: 'Arrr!',
     prs: [],
+    authorStats: [],
     recommendations: ['Keep up the good work!'],
     analyzedAt: new Date().toISOString(),
     ...overrides,

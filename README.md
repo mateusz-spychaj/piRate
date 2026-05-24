@@ -14,6 +14,23 @@ npm install && npm run dev
 
 Optionally copy `.env.example` and set `OPENROUTER_API_KEY` for real AI analysis (without it, mock scores are used).
 
+### Run tests
+
+```bash
+npm test          # Unit tests (Vitest)
+npm run test:e2e  # E2E tests (Playwright)
+npm run test:all  # All tests
+npm run typecheck # TypeScript check
+```
+
+---
+
+## Preview
+
+![πRate score dashboard](data/score.png)
+
+![πRate performance](data/performance.png)
+
 ---
 
 ## 2. Stack & justification
@@ -76,5 +93,5 @@ The weights sum to 100 %. The 0.14 dimension is not scored — it is a qualitati
 
 ## 8. Live demo
 
-- **Production** → [https://pir-rate.vercel.app](https://pir-rate.vercel.app)
-- **Custom domain** → [http://pirate.mateuszspychaj.pl](http://pirate.mateuszspychaj.pl)
+- **Production** → [https://pirate.mateuszspychaj.pl](https://pirate.mateuszspychaj.pl)
+- **Vercel mirror** → [https://pir-rate.vercel.app](https://pir-rate.vercel.app)

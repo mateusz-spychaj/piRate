@@ -107,6 +107,9 @@
   "prList.files": "files",
   "prList.openOnGitHub": "Otwórz PR na GitHubie",
   "prList.viewDiff": "Zobacz diffa",
+  "prList.hideDiff": "Ukryj diffa",
+  "prList.diffLoading": "Ładowanie diffa…",
+  "prList.diffError": "Nie udało się załadować diffa",
 
   "errors.invalidUrl": "Nieprawidłowy URL repozytorium GitHub",
   "errors.privateRepo": "To repozytorium jest prywatne. Podaj URL publicznego repo",
