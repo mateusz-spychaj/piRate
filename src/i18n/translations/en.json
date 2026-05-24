@@ -7,6 +7,7 @@
 
   "hero.title": "Rate PR Quality in Your Repository",
   "hero.subtitle": "AI analyzes pull requests and rates them by impact, code quality, and AI leverage",
+  "hero.badge": "AI-Powered Analysis",
   "repoInput.placeholder": "https://github.com/owner/repository",
   "repoInput.aria.input": "GitHub repository URL",
   "repoInput.aria.settings": "Analysis settings",
@@ -25,11 +26,23 @@
 
   "socialProof.title": "Trusted by developers",
   "socialProof.subtitle": "What users say",
+  "socialProof.asSeenIn": "As seen in",
   "socialProof.quote1": "πRate completely changed how our team reviews PRs. AI delivers objective metrics for daily discussions. Code quality increased by 40% in 3 months.",
   "socialProof.quote2": "I was skeptical, but after running 50 PRs through πRate the insights opened my eyes. The AI Leverage score alone helped us find automation opportunities.",
   "socialProof.quote3": "Finally a tool that speaks both dev and manager language. The pirate summary is our new favorite Slack integration.",
 
   "howItWorks.title": "How it works?",
+  "howItWorks.step1.title": "Enter repository URL",
+  "howItWorks.step1.description": "Provide a link to the public GitHub repository you want to evaluate",
+  "howItWorks.step2.title": "AI analyzes PRs",
+  "howItWorks.step2.description": "Our AI fetches merged pull requests and analyzes them across three dimensions",
+  "howItWorks.step3.title": "See results",
+  "howItWorks.step3.description": "Get detailed scores for each PR and an aggregated result for the entire repo",
+
+  "stats.prsAnalyzed": "PRs Analyzed",
+  "stats.accuracy": "Accuracy Rate",
+  "stats.rating": "User Rating",
+  "stats.integrations": "Integrations",
   "howItWorks.step1.title": "Enter repository URL",
   "howItWorks.step1.description": "Provide a link to the public GitHub repository you want to evaluate",
   "howItWorks.step2.title": "AI analyzes PRs",

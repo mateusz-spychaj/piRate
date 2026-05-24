@@ -7,6 +7,7 @@
 
   "hero.title": "Oceń jakość PRów w swoim repozytorium",
   "hero.subtitle": "AI analizuje pull requesty i ocenia je pod względem wpływu, jakości kodu oraz wykorzystania sztucznej inteligencji",
+  "hero.badge": "Analiza z wykorzystaniem AI",
   "repoInput.placeholder": "https://github.com/właściciel/repozytorium",
   "repoInput.aria.input": "URL repozytorium GitHub",
   "repoInput.aria.settings": "Ustawienia analizy",
@@ -25,6 +26,7 @@
 
   "socialProof.title": "Zaufali nam",
   "socialProof.subtitle": "Co mówią użytkownicy",
+  "socialProof.asSeenIn": "Zauważeni w",
   "socialProof.quote1": "πRate totalnie zmienił sposób w jaki nasz team reviewuje PRy. AI dostarcza obiektywnych metryk do daily discussion. Jakość kodu wzrosła o 40% w 3 miesiące.",
   "socialProof.quote2": "Byłem sceptyczny, ale po przepuszczeniu 50 PRów przez πRate wnioski otworzyły mi oczy. Sam AI Leverage score pomógł nam znaleźć obszary do automatyzacji.",
   "socialProof.quote3": "W końcu narzędzie które mówi językiem zarówno devów jak i managerów. Podsumowanie pirackie to nasza nowa ulubiona integracja Slackowa.",
@@ -36,6 +38,11 @@
   "howItWorks.step2.description": "Nasze AI pobiera merged pull requesty i analizuje je pod trzema wymiarami",
   "howItWorks.step3.title": "Zobacz wyniki",
   "howItWorks.step3.description": "Otrzymasz szczegółową ocenę każdego PRa oraz zagregowany wynik dla całego repo",
+
+  "stats.prsAnalyzed": "Przeanalizowanych PRów",
+  "stats.accuracy": "Skuteczność",
+  "stats.rating": "Ocena użytkowników",
+  "stats.integrations": "Integracje",
 
   "dimensions.title": "Co oceniamy?",
   "dimensions.impact": "Wpływ",

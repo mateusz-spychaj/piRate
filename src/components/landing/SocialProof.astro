@@ -9,42 +9,49 @@ interface Props {
 const { lang } = Astro.props;
 const l = lang as Language;
 
+const logos = ['TechCrunch', 'The Verge', 'WIRED', 'GitHub Blog', 'Dev.to', 'Hacker News'];
+
 const testimonials = [
-  {
-    quote: 'piRate.quote1',
-    name: 'Marcus Chen',
-    role: 'Senior Developer',
-    company: 'TechFlow',
-  },
-  {
-    quote: 'piRate.quote2',
-    name: 'Sarah Okafor',
-    role: 'Engineering Manager',
-    company: 'DataBridge',
-  },
-  {
-    quote: 'piRate.quote3',
-    name: 'Alex Rivera',
-    role: 'CTO',
-    company: 'ScaleUp Labs',
-  },
+  { quote: 'socialProof.quote1', name: 'Marcus Chen', role: 'Senior Developer', company: 'TechFlow' },
+  { quote: 'socialProof.quote2', name: 'Sarah Okafor', role: 'Engineering Manager', company: 'DataBridge' },
+  { quote: 'socialProof.quote3', name: 'Alex Rivera', role: 'CTO', company: 'ScaleUp Labs' },
 ];
 ---
 
-<section class="section">
+<section class="section overflow-hidden">
   <div class="container-custom">
     <div class="text-center mb-12">
       <p class="text-sm text-text-muted uppercase tracking-wider mb-3">
-        {t('socialProof.title', l)}
+        {t('socialProof.asSeenIn', l)}
       </p>
+    </div>
+  </div>
+
+  <div class="carousel-container mb-16">
+    <div class="carousel-track">
+      {[...logos, ...logos].map((name) => (
+        <div class="flex items-center justify-center h-12 px-8 rounded-lg bg-surface dark:bg-gray-800 border border-border transition-all duration-300 hover:border-primary hover:text-primary cursor-pointer">
+          <span class="text-sm font-semibold text-text-muted group-hover:text-primary transition-colors">
+            {name}
+          </span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="container-custom">
+    <div class="text-center mb-12">
       <h2 class="text-3xl font-bold text-text-primary">
-        {t('socialProof.subtitle', l)}
+        {t('socialProof.title', l)}
       </h2>
     </div>
 
     <div class="grid md:grid-cols-3 gap-6">
-      {testimonials.map((test) => (
-        <article class="rounded-xl bg-white dark:bg-gray-800 border border-border dark:border-gray-700 p-6 shadow-md flex flex-col">
+      {testimonials.map((test, i) => (
+        <article
+          class="rounded-xl bg-white dark:bg-gray-800 border border-border dark:border-gray-700 p-6 shadow-md flex flex-col animate-on-scroll"
+          class:list={{ 'stagger-2': i === 1, 'stagger-3': i === 2 }}
+        >
           <div class="flex gap-1 mb-4" aria-label="5 na 5 gwiazdek">
             {[1, 2, 3, 4, 5].map(() => (
               <svg class="w-4 h-4 fill-amber-400" viewBox="0 0 20 20" aria-hidden="true">
@@ -67,4 +74,19 @@ const testimonials = [
       ))}
     </div>
   </div>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.animate-on-scroll').forEach((el) => {
+      observer.observe(el);
+    });
+  </script>
 </section>
