@@ -29,6 +29,7 @@ npm run typecheck # TypeScript check
 
 ![πRate score dashboard](data/score.png)
 
+App has good Performance score in the Lighthouse test:
 ![πRate performance](data/performance.png)
 
 ---
@@ -51,11 +52,11 @@ The project itself was built with the assistance of an AI coding agent (opencode
 
 ## 4. Scoring weight justification
 
-| Dimension | Weight | Rationale |
-|-----------|--------|-----------|
-| Impact | **40%** | A PR's value to the codebase is the most important signal — does it ship real features, fix critical bugs, or improve architecture? Weighted highest. |
-| AI-Leverage | **30%** | Measures how effectively the author uses AI assistance. Important as a modern productivity signal, but not the primary goal of code review. |
-| Quality | **30%** | Engineering quality (focused diffs, clean code, tests) is essential but often correlates with impact — weighted equally with AI-leverage to keep the balance. |
+| Dimension   | Weight  | Rationale                                                                                                                                                     |
+| ----------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Impact      | **40%** | A PR's value to the codebase is the most important signal — does it ship real features, fix critical bugs, or improve architecture? Weighted highest.         |
+| AI-Leverage | **30%** | Measures how effectively the author uses AI assistance. Important as a modern productivity signal, but not the primary goal of code review.                   |
+| Quality     | **30%** | Engineering quality (focused diffs, clean code, tests) is essential but often correlates with impact — weighted equally with AI-leverage to keep the balance. |
 
 The weights sum to 100 %. The 0.14 dimension is not scored — it is a qualitative pirate summary for fun.
 
@@ -87,7 +88,7 @@ The weights sum to 100 %. The 0.14 dimension is not scored — it is a qualitati
 
 ## 7. Recording
 
-*Recording link — to be added after screen recording is created.*
+_Recording link — to be added after screen recording is created._
 
 ---
 
