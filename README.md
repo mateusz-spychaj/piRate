@@ -86,13 +86,7 @@ The weights sum to 100 %. The 0.14 dimension is not scored — it is a qualitati
 
 ---
 
-## 7. Recording
-
-_Recording link — to be added after screen recording is created._
-
----
-
-## 8. Live demo
+## 7. Live demo
 
 - **Production** → [https://pirate.mateuszspychaj.pl](https://pirate.mateuszspychaj.pl)
 - **Vercel mirror** → [https://pir-rate.vercel.app](https://pir-rate.vercel.app)
