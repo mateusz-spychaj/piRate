@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import vercel from '@astrojs/vercel';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   integrations: [react()],
@@ -9,5 +10,8 @@ export default defineConfig({
     imageService: true
   }),
   output: 'server',
-  site: 'https://pirate-rate.vercel.app'
+  site: 'https://pirate-rate.vercel.app',
+  vite: {
+    plugins: [tailwindcss()]
+  }
 });
