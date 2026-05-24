@@ -197,7 +197,7 @@ export default function ScoreOverview({ analysis, lang }: Props) {
       </div>
 
       <div className="mt-8 pt-8 border-t border-border">
-        <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4 mb-6">
+        <div data-export-hide className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4 mb-6">
           <p className="text-amber-800 dark:text-amber-200 text-sm leading-relaxed italic">
             &ldquo;{pirateSummary}&rdquo;
           </p>

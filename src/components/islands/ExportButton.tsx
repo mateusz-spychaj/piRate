@@ -43,6 +43,9 @@ export default function ExportButton({ analysis, lang, scoreRef }: Props) {
         scale: 2,
         useCORS: true,
         onclone: (_clonedDoc, clonedEl: HTMLElement) => {
+          clonedEl.querySelectorAll('[data-export-hide]').forEach((e) => {
+            (e as HTMLElement).style.display = 'none';
+          });
           const walk = (orig: Element, clone: Element) => {
             if (clone instanceof HTMLElement && orig instanceof HTMLElement) {
               const cs = window.getComputedStyle(orig);
