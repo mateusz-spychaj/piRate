@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Settings, X } from 'lucide-react';
+import { Settings, X, Loader2 } from 'lucide-react';
 import { DEFAULT_PR_COUNT, MIN_PR_COUNT, MAX_PR_COUNT } from '../../lib/constants';
+
+type ProgressStep = 'idle' | 'fetching' | 'analyzing' | 'scoring' | 'complete' | 'error';
 
 export default function RepoInput() {
   const [url, setUrl] = useState('');
@@ -8,6 +10,7 @@ export default function RepoInput() {
   const [showSettings, setShowSettings] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [progress, setProgress] = useState<{ step: ProgressStep; current?: number; total?: number }>({ step: 'idle' });
 
   useEffect(() => {
     const stored = localStorage.getItem('pirate-prs');
@@ -30,6 +33,7 @@ export default function RepoInput() {
     }
 
     setIsLoading(true);
+    setProgress({ step: 'fetching' });
     localStorage.setItem('pirate-prs', prCount.toString());
 
     try {
@@ -39,18 +43,58 @@ export default function RepoInput() {
         body: JSON.stringify({ repoUrl: url, prCount }),
       });
 
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error || 'Analiza nie powiodła się');
-      }
+      const contentType = response.headers.get('Content-Type') || '';
 
-      const data = await response.json();
-      if (data.analysis) {
-        sessionStorage.setItem(`pirate-analysis-${data.hash}`, JSON.stringify(data.analysis));
+      if (contentType.includes('text/event-stream')) {
+        const reader = response.body!.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop() || '';
+
+          for (const line of lines) {
+            if (!line.startsWith('data: ')) continue;
+            try {
+              const data = JSON.parse(line.slice(6));
+
+              if (data.type === 'progress') {
+                setProgress({
+                  step: data.step,
+                  current: data.current,
+                  total: data.total,
+                });
+              } else if (data.type === 'complete') {
+                sessionStorage.setItem(`pirate-analysis-${data.hash}`, JSON.stringify(data.analysis));
+                window.location.href = `/results/${data.hash}`;
+                return;
+              } else if (data.type === 'error') {
+                throw new Error(data.error);
+              }
+            } catch (parseErr) {
+              if (parseErr instanceof Error && parseErr.message !== 'Analiza nie powiodła się. Spróbuj ponownie') {
+                throw parseErr;
+              }
+            }
+          }
+        }
+        throw new Error('Nie oczekiwany koniec strumienia');
+      } else {
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Analiza nie powiodła się');
+        if (data.analysis) {
+          sessionStorage.setItem(`pirate-analysis-${data.hash}`, JSON.stringify(data.analysis));
+        }
+        window.location.href = `/results/${data.hash}`;
       }
-      window.location.href = `/results/${data.hash}`;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Coś poszło nie tak');
+      setProgress({ step: 'idle' });
     } finally {
       setIsLoading(false);
     }
@@ -61,6 +105,10 @@ export default function RepoInput() {
     setPrCount(clamped);
     localStorage.setItem('pirate-prs', clamped.toString());
   };
+
+  const progressPercent = progress.current && progress.total
+    ? Math.round((progress.current / progress.total) * 100)
+    : 0;
 
   return (
     <div className="relative">
@@ -74,6 +122,7 @@ export default function RepoInput() {
             className="input-field pr-12"
             aria-label="URL repozytorium GitHub"
             required
+            disabled={isLoading}
           />
           <button
             type="button"
@@ -81,6 +130,7 @@ export default function RepoInput() {
             className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-text-muted hover:text-text-primary transition-colors rounded-lg hover:bg-surface"
             aria-label="Ustawienia analizy"
             aria-expanded={showSettings}
+            disabled={isLoading}
           >
             {showSettings ? <X size={18} /> : <Settings size={18} />}
           </button>
@@ -91,13 +141,35 @@ export default function RepoInput() {
           disabled={isLoading || !url.trim()}
           className="btn-primary whitespace-nowrap"
         >
-          {isLoading ? 'Analizowanie...' : 'Analizuj repo'}
+          {isLoading ? (
+            <span className="flex items-center gap-2">
+              <Loader2 size={18} className="animate-spin" />
+              {progress.step === 'fetching' ? 'Pobieranie PRów...' :
+               progress.step === 'analyzing' ? `Analizowanie ${progress.current}/${progress.total}...` :
+               'Przetwarzanie...'}
+            </span>
+          ) : 'Analizuj repo'}
         </button>
       </form>
 
+      {isLoading && progress.step === 'analyzing' && progress.total && (
+        <div className="mt-4">
+          <div className="flex justify-between text-xs text-text-secondary mb-1.5">
+            <span>Postęp analizy</span>
+            <span>{progress.current}/{progress.total} PRów</span>
+          </div>
+          <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div
+              className="h-full rounded-full bg-primary transition-all duration-500"
+              style={{ width: `${progressPercent}%` }}
+            />
+          </div>
+        </div>
+      )}
+
       {error && <p className="mt-3 text-sm text-danger" role="alert">{error}</p>}
 
-      {showSettings && (
+      {showSettings && !isLoading && (
         <div className="absolute top-full left-0 right-0 mt-2 p-4 bg-white rounded-xl border border-border shadow-lg z-10 animate-fade-in">
           <label className="block text-sm font-medium text-text-primary mb-2">
             Ile PRów analizować?

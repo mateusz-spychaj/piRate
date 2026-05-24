@@ -1,8 +1,8 @@
 {
-  "meta.title": "piRate - Rate PR Quality in Your Repository",
+  "meta.title": "πRate - Rate PR Quality in Your Repository",
   "meta.description": "AI analyzes pull requests and rates them by impact, quality, and AI leverage",
 
-  "nav.brand": "piRate",
+  "nav.brand": "πRate",
   "nav.analyze": "Analyze",
 
   "hero.title": "Rate PR Quality in Your Repository",
@@ -43,7 +43,7 @@
   "footer.legal": "Legal",
   "footer.privacy": "Privacy Policy",
   "footer.terms": "Terms of Service",
-  "footer.copyright": "© 2026 piRate. All rights reserved.",
+  "footer.copyright": "© 2026 πRate. All rights reserved.",
 
   "analyze.title": "Analyzing repository...",
   "analyze.steps.fetching": "Fetching pull requests...",

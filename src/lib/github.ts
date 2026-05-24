@@ -1,6 +1,6 @@
-import type { PRData } from './types';
-import { GITHUB_API_BASE } from './constants';
-import { parseRepoUrl } from './validation';
+import type { PRData } from "./types";
+import { GITHUB_API_BASE } from "./constants";
+import { parseRepoUrl } from "./validation";
 
 interface GitHubPR {
   number: number;
@@ -18,8 +18,8 @@ interface GitHubPR {
 
 function getHeaders(): Record<string, string> {
   const headers: Record<string, string> = {
-    Accept: 'application/vnd.github.v3+json',
-    'User-Agent': 'piRate',
+    Accept: "application/vnd.github.v3+json",
+    "User-Agent": "πRate",
   };
   const token = import.meta.env.GITHUB_TOKEN;
   if (token) {
@@ -33,13 +33,13 @@ async function githubFetch<T>(path: string): Promise<T> {
   const response = await fetch(url, { headers: getHeaders() });
 
   if (response.status === 403) {
-    throw new Error('errors.rateLimit');
+    throw new Error("errors.rateLimit");
   }
   if (response.status === 404) {
-    throw new Error('errors.privateRepo');
+    throw new Error("errors.privateRepo");
   }
   if (!response.ok) {
-    throw new Error('errors.general');
+    throw new Error("errors.general");
   }
 
   return response.json() as Promise<T>;
@@ -47,31 +47,29 @@ async function githubFetch<T>(path: string): Promise<T> {
 
 export async function fetchMergedPRs(
   repoUrl: string,
-  prCount: number
+  prCount: number,
 ): Promise<PRData[]> {
   const parsed = parseRepoUrl(repoUrl);
-  if (!parsed) throw new Error('errors.invalidUrl');
+  if (!parsed) throw new Error("errors.invalidUrl");
 
   const { owner, repo } = parsed;
   const perPage = Math.min(prCount * 2, 100);
 
   const prs = await githubFetch<GitHubPR[]>(
-    `/repos/${owner}/${repo}/pulls?state=closed&sort=updated&direction=desc&per_page=${perPage}`
+    `/repos/${owner}/${repo}/pulls?state=closed&sort=updated&direction=desc&per_page=${perPage}`,
   );
 
-  const merged = prs
-    .filter((pr) => pr.merged_at)
-    .slice(0, prCount);
+  const merged = prs.filter((pr) => pr.merged_at).slice(0, prCount);
 
   if (merged.length === 0) {
-    throw new Error('errors.noPRs');
+    throw new Error("errors.noPRs");
   }
 
   return merged.map((pr) => ({
     id: pr.number,
     number: pr.number,
     title: pr.title,
-    description: pr.body ?? '',
+    description: pr.body ?? "",
     author: pr.user.login,
     createdAt: pr.created_at,
     changedFiles: pr.changed_files,
@@ -84,30 +82,30 @@ export async function fetchMergedPRs(
       aiLeverage: 0,
       quality: 0,
       total: 0,
-      pirateSummary: '',
+      pirateSummary: "",
     },
   }));
 }
 
 export async function fetchPRDiff(
   repoUrl: string,
-  prNumber: number
+  prNumber: number,
 ): Promise<string> {
   const parsed = parseRepoUrl(repoUrl);
-  if (!parsed) return '';
+  if (!parsed) return "";
 
   const { owner, repo } = parsed;
   const headers = getHeaders();
-  headers.Accept = 'application/vnd.github.v3.diff';
+  headers.Accept = "application/vnd.github.v3.diff";
 
   try {
     const response = await fetch(
       `${GITHUB_API_BASE}/repos/${owner}/${repo}/pulls/${prNumber}`,
-      { headers }
+      { headers },
     );
-    if (!response.ok) return '';
+    if (!response.ok) return "";
     return response.text();
   } catch {
-    return '';
+    return "";
   }
 }
